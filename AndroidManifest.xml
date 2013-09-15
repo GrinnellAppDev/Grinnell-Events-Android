@@ -30,6 +30,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".EventsListActivity" />
         </activity>
+        <activity
+            android:name="edu.grinnell.events.data.EventParser"
+            android:label="@string/title_activity_event_parser" >
+        </activity>
     </application>
 
 </manifest>
