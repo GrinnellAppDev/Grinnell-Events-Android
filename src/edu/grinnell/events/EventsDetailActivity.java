@@ -1,4 +1,6 @@
-package com.example.events_android;
+package edu.grinnell.events;
+
+import com.example.events_android.R;
 
 import android.content.Intent;
 import android.os.Bundle;

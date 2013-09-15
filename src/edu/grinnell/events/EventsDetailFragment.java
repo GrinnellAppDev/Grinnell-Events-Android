@@ -1,4 +1,4 @@
-package com.example.events_android;
+package edu.grinnell.events;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.events_android.dummy.DummyContent;
+import com.example.events_android.R;
+
+import edu.grinnell.events.data.EventContent;
 
 /**
  * A fragment representing a single Events detail screen. This fragment is
@@ -24,7 +26,7 @@ public class EventsDetailFragment extends Fragment {
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	private DummyContent.DummyItem mItem;
+	private EventContent.DummyItem mItem;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -41,7 +43,7 @@ public class EventsDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			mItem = DummyContent.ITEM_MAP.get(getArguments().getString(
+			mItem = EventContent.ITEM_MAP.get(getArguments().getString(
 					ARG_ITEM_ID));
 		}
 	}

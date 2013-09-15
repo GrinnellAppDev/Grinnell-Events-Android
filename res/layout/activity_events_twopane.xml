@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/events_list"
-        android:name="com.example.events_android.EventsListFragment"
+        android:name="edu.grinnell.events.EventsListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
