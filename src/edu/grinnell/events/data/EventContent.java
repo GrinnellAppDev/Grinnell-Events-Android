@@ -5,51 +5,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- * <p>
- * TODO: Replace all uses of this class before publishing your app.
- */
 public class EventContent {
 
-	/**
-	 * An array of sample (dummy) items.
-	 */
-	public static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
-
-	/**
-	 * A map of sample (dummy) items, by ID.
-	 */
-	public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+	public static List<Event> ITEMS = new ArrayList<Event>();
 
 	static {
 		// Add 3 sample items.
-		addItem(new DummyItem("1", "Item 1"));
-		addItem(new DummyItem("2", "Item 2"));
-		addItem(new DummyItem("3", "Item 3"));
+		addEvent(new Event("1", "Item 1", "1/1/13", "Noyce 3818", "chillin"));
+		addEvent(new Event("2", "Item 2", "6/6/1666", "yo mamas house", "killin"));
+		addEvent(new Event("3", "Item 3", "1/2/3456", "mordor", "makin a million"));
 	}
 
-	private static void addItem(DummyItem item) {
-		ITEMS.add(item);
-		ITEM_MAP.put(item.id, item);
+	private static void addEvent(Event event) {
+		ITEMS.add(event);
 	}
 
-	/**
-	 * A dummy item representing a piece of content.
-	 */
-	public static class DummyItem {
+	public static class Event {
 		public String id;
-		public String content;
+		public String title;
+		public String date;
+		public String location;
+		public String details;
 
-		public DummyItem(String id, String content) {
+		public Event(String id, String title, String date, String location, String details) {
 			this.id = id;
-			this.content = content;
-		}
-
-		@Override
-		public String toString() {
-			return content;
+			this.title = title;
+			this.date = date;
+			this.location = location;
+			this.details = details;
 		}
 	}
 }
