@@ -8,10 +8,9 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import edu.grinnell.events.data.EventContent.Event;
-
 import android.util.Log;
 import android.util.Xml;
+import edu.grinnell.events.data.EventContent.Event;
 
 //Note: Much of the code for this program was copied directly from 
 //http://developer.android.com/training/basics/network-ops/xml.html
@@ -113,9 +112,8 @@ public class EventParser {
 				location = parts[1];
 			}
 		}
+		
 		Log.i("parser", title);
-		
-		
 		return new EventContent.Event(id, title, date, location, details);
 	}
 

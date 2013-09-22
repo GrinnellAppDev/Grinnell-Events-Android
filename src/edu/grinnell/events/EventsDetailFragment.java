@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.events_android.R;
 
 import edu.grinnell.events.data.EventContent;
+import edu.grinnell.events.data.EventContent.Event;
 
 /**
  * A fragment representing a single Events detail screen. This fragment is
@@ -26,7 +27,7 @@ public class EventsDetailFragment extends Fragment {
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	private EventContent.DummyItem mItem;
+	private Event mItem;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -43,8 +44,10 @@ public class EventsDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			mItem = EventContent.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
+			mItem = EventContent.ITEMS.get(0);
+					
+			//iterate through list to find event based on title or somthin in future
+				//	(getArguments().getString(ARG_ITEM_ID));
 		}
 	}
 
@@ -57,7 +60,7 @@ public class EventsDetailFragment extends Fragment {
 		// Show the dummy content as text in a TextView.
 		if (mItem != null) {
 			((TextView) rootView.findViewById(R.id.events_detail))
-					.setText(mItem.content);
+					.setText(mItem.getDetails());
 		}
 
 		return rootView;

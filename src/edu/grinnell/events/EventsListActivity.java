@@ -1,10 +1,16 @@
 package edu.grinnell.events;
 
-import com.example.events_android.R;
+import java.net.MalformedURLException;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+
+import com.example.events_android.R;
+
+import edu.grinnell.events.data.EventContent.Event;
+import edu.grinnell.events.data.PullEvents;
 
 /**
  * An activity representing a list of Events. This activity has different
@@ -21,8 +27,12 @@ import android.support.v4.app.FragmentActivity;
  * This activity also implements the required
  * {@link EventsListFragment.Callbacks} interface to listen for item selections.
  */
+
 public class EventsListActivity extends FragmentActivity implements
 		EventsListFragment.Callbacks {
+
+	final public static String FEED = "http://schedule25wb.grinnell.edu/rssfeeds/memo.xml";
+	public List<Event> mData;
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -44,11 +54,16 @@ public class EventsListActivity extends FragmentActivity implements
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			((EventsListFragment) getSupportFragmentManager().findFragmentById(
-					R.id.events_list)).setActivateOnItemClick(true);
+			((EventsListFragment) getSupportFragmentManager()
+					.findFragmentById(R.layout.fragment_events_list))
+					.setActivateOnItemClick(true);
+
 		}
 
-		// TODO: If exposing deep links into your app, handle intents here.
+		EventsListFragment eventList = new EventsListFragment();
+
+		getSupportFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, eventList).commit();
 	}
 
 	/**

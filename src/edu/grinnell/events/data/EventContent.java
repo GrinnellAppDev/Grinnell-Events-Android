@@ -1,9 +1,7 @@
 package edu.grinnell.events.data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class EventContent {
 
@@ -21,11 +19,11 @@ public class EventContent {
 	}
 
 	public static class Event {
-		public String id;
-		public String title;
-		public String date;
-		public String location;
-		public String details;
+		protected String id;
+		protected String title;
+		protected String date;
+		protected String location;
+		protected String details;
 
 		public Event(String id, String title, String date, String location, String details) {
 			this.id = id;
@@ -33,6 +31,26 @@ public class EventContent {
 			this.date = date;
 			this.location = location;
 			this.details = details;
+		}
+		
+		public String getID(){
+			return id;
+		}
+		
+		public String getTitle (){
+			return title;
+		}
+		
+		public String getDate(){
+			return date;
+		}
+		
+		public String getLocation(){
+			return location;
+		}
+		
+		public String getDetails(){
+			return details;
 		}
 	}
 }

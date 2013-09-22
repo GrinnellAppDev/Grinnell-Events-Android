@@ -1,13 +1,23 @@
 package edu.grinnell.events;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.events_android.R;
+
 import edu.grinnell.events.data.EventContent;
+import edu.grinnell.events.data.EventContent.Event;
+
+
 
 /**
  * A list fragment representing a list of Events. This fragment also supports
@@ -49,7 +59,10 @@ public class EventsListFragment extends ListFragment {
 		public void onItemSelected(String id);
 	}
 
-	/**
+	/**    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	 * A dummy implementation of the {@link Callbacks} interface that does
 	 * nothing. Used only when this fragment is not attached to an activity.
 	 */
@@ -71,11 +84,17 @@ public class EventsListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		// TODO: replace with a real list adapter.
-		setListAdapter(new ArrayAdapter<EventContent.DummyItem>(getActivity(),
+	/*	setListAdapter(new ArrayAdapter<EventContent>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, EventContent.ITEMS));
+				android.R.id.text1)); */
+		EventsListActivity activity = (EventsListActivity) getActivity();
+		//List<Event> events = activity.getEvents();
+		
+		//events is null here
+		EventsListAdapter adapter = new EventsListAdapter(activity, R.layout.events_row, EventContent.ITEMS);
+		setListAdapter(adapter);
 	}
-
+/*
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -87,6 +106,7 @@ public class EventsListFragment extends ListFragment {
 					.getInt(STATE_ACTIVATED_POSITION));
 		}
 	}
+	*/
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -116,13 +136,13 @@ public class EventsListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(EventContent.ITEMS.get(position).id);
+		mCallbacks.onItemSelected(EventContent.ITEMS.get(position).getID());
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (mActivatedPosition != ListView.INVALID_POSITION) {
+		if (mActivatedPosition != AdapterView.INVALID_POSITION) {
 			// Serialize and persist the activated item position.
 			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
 		}
@@ -136,17 +156,25 @@ public class EventsListFragment extends ListFragment {
 		// When setting CHOICE_MODE_SINGLE, ListView will automatically
 		// give items the 'activated' state when touched.
 		getListView().setChoiceMode(
-				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
-						: ListView.CHOICE_MODE_NONE);
+				activateOnItemClick ? AbsListView.CHOICE_MODE_SINGLE
+						: AbsListView.CHOICE_MODE_NONE);
 	}
 
 	private void setActivatedPosition(int position) {
-		if (position == ListView.INVALID_POSITION) {
+		if (position == AdapterView.INVALID_POSITION) {
 			getListView().setItemChecked(mActivatedPosition, false);
 		} else {
 			getListView().setItemChecked(position, true);
 		}
 
 		mActivatedPosition = position;
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		return inflater.inflate(R.layout.fragment_events_list, container,
+				false);
 	}
 }
