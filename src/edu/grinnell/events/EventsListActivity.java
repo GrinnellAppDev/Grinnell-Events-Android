@@ -60,6 +60,22 @@ public class EventsListActivity extends FragmentActivity implements
 
 		}
 
+		PullEvents parse = new PullEvents();
+		
+		try {
+			parse.pullFeed(FEED);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		EventsListFragment eventList = new EventsListFragment();
 
 		getSupportFragmentManager().beginTransaction()

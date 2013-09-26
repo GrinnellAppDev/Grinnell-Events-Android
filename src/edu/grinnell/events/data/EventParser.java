@@ -20,6 +20,9 @@ public class EventParser {
 
 	public List<Event> parse(InputStream in) throws XmlPullParserException,
 			IOException {
+		
+		Log.i("Pull", "parse begun");
+
 		try {
 			XmlPullParser parser = Xml.newPullParser();
 			parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -33,6 +36,7 @@ public class EventParser {
 
 	private List<Event> readFeed(XmlPullParser parser)
 			throws XmlPullParserException, IOException {
+		
 		List<Event> events = new ArrayList<Event>();
 
 		parser.require(XmlPullParser.START_TAG, ns, "rss");

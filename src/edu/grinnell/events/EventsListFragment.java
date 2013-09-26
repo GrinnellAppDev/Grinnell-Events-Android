@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.example.events_android.R;
 
 import edu.grinnell.events.data.EventContent;
+import edu.grinnell.events.data.PullEvents;
 import edu.grinnell.events.data.EventContent.Event;
 
 
@@ -83,15 +84,10 @@ public class EventsListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// TODO: replace with a real list adapter.
-	/*	setListAdapter(new ArrayAdapter<EventContent>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1)); */
 		EventsListActivity activity = (EventsListActivity) getActivity();
-		//List<Event> events = activity.getEvents();
 		
 		//events is null here
-		EventsListAdapter adapter = new EventsListAdapter(activity, R.layout.events_row, EventContent.ITEMS);
+		EventsListAdapter adapter = new EventsListAdapter(activity, R.layout.events_row, PullEvents.EventList);
 		setListAdapter(adapter);
 	}
 /*

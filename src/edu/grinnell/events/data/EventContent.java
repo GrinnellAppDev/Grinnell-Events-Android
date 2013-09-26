@@ -37,7 +37,7 @@ public class EventContent {
 			return id;
 		}
 		
-		public String getTitle (){
+		public String getTitle(){
 			return title;
 		}
 		

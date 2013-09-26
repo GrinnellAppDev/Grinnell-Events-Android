@@ -17,17 +17,13 @@ import edu.grinnell.events.data.EventContent.Event;
 
 public class PullEvents {	
 	
+	public static List<Event> EventList;
+	
 	public void pullFeed(String feed) throws MalformedURLException {
 		URL feedURL = new URL(feed);
 		new downloadFeed().execute(feedURL);
 		
 
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	private class downloadFeed extends AsyncTask<URL, Integer, List<Event>> {
@@ -35,14 +31,19 @@ public class PullEvents {
 		protected List<Event> doInBackground(URL... urls) {
 
 			try {
+				
 				URLConnection urlConnection = urls[0].openConnection();
 				InputStream in = new BufferedInputStream(
 						urlConnection.getInputStream());
+				
+
 				EventParser parser = new EventParser();
 				List<Event> events;
-
-				events = parser.parse(in);
 				
+				events = new ArrayList<Event>(parser.parse(in));
+				
+				PullEvents.EventList = new ArrayList<Event>(events);
+
 				return events;
 
 			} catch (XmlPullParserException e) {
@@ -54,10 +55,6 @@ public class PullEvents {
 				return null;
 
 			}
-		}
-
-		protected void onPostExecute(List<Event> events) {
-			// save events list somewhere
 		}
 	}
 
