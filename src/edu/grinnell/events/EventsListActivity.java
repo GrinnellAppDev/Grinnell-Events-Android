@@ -1,16 +1,24 @@
 package edu.grinnell.events;
 
-import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.example.events_android.R;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
+import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
-import edu.grinnell.events.data.PullEvents;
 
 /**
  * An activity representing a list of Events. This activity has different
@@ -32,7 +40,7 @@ public class EventsListActivity extends FragmentActivity implements
 		EventsListFragment.Callbacks {
 
 	final public static String FEED = "http://schedule25wb.grinnell.edu/rssfeeds/memo.xml";
-	public List<Event> mData;
+	public List<Event> mData = new ArrayList<Event>();
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -54,33 +62,29 @@ public class EventsListActivity extends FragmentActivity implements
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			((EventsListFragment) getSupportFragmentManager()
-					.findFragmentById(R.layout.fragment_events_list))
+			((EventsListFragment) getSupportFragmentManager().findFragmentById(
+					R.layout.fragment_events_list))
 					.setActivateOnItemClick(true);
 
 		}
 
-		PullEvents parse = new PullEvents();
-		
-		try {
-			parse.pullFeed(FEED);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		EventsListFragment eventList = new EventsListFragment();
+		Parse.initialize(this, "gxqIXbjvBCr7oYCYzNT2GYidbYv3Jiy4NJSJxxN3",
+				"S0FQadLhLS5ine1wsDQ2YY3rnOKsAD2eEqNNwdY6");
 
-		getSupportFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, eventList).commit();
-	}
+		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event");
+		event_query.setLimit(500);
+		event_query.findInBackground(new FindCallback<ParseObject>() {
+			public void done(List<ParseObject> eventList, ParseException e) {
+				if (e == null) {
+					Log.d("score", "Retrieved " + eventList.size() + " events");
+					// p_event_list = eventList;
+					saveToList(eventList);
+				} else {
+					Log.d("score", "Error: " + e.getMessage());
+				}
+			}
+		});
+	}	
 
 	/**
 	 * Callback method from {@link EventsListFragment.Callbacks} indicating that
@@ -92,10 +96,14 @@ public class EventsListActivity extends FragmentActivity implements
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
+			
+			EventsDetailFragment fragment = new EventsDetailFragment();
+
 			Bundle arguments = new Bundle();
 			arguments.putString(EventsDetailFragment.ARG_ITEM_ID, id);
-			EventsDetailFragment fragment = new EventsDetailFragment();
+			
 			fragment.setArguments(arguments);
+			
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.events_detail_container, fragment).commit();
 
@@ -107,4 +115,44 @@ public class EventsListActivity extends FragmentActivity implements
 			startActivity(detailIntent);
 		}
 	}
+
+	protected void saveToList(List<ParseObject> p_event_list) {
+		String eventid;
+		String title;
+		String location;
+		String details;
+		Date startDate;
+		String startTime;
+
+		Iterator<ParseObject> event_saver = p_event_list.iterator();
+		while (event_saver.hasNext()) {
+			ParseObject p_event = event_saver.next();
+			eventid = p_event.getString("eventid");
+			title = p_event.getString("title");
+			location = p_event.getString("location");
+			startDate = p_event.getDate("startTime");
+			startTime = startDate.toString();
+			details = p_event.getString("detailDescription");
+			Event new_event = new Event(eventid, title, startTime, location,
+					details);
+			
+			EventContent.EventList.add(new_event);
+		}
+
+		mData = EventContent.EventList;
+		
+		if (mData != null)
+			Log.d("events", "Retrieved " + mData.size() + " events");
+		else
+			Log.d("events", "event list empty");
+		
+
+		EventsListFragment eventList = new EventsListFragment();
+		eventList.mData = mData;
+		
+		getSupportFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, eventList).commit();
+				
+	}
+	
 }

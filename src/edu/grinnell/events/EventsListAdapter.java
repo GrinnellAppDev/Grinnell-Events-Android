@@ -15,7 +15,9 @@ import edu.grinnell.events.data.EventContent.Event;
 public class EventsListAdapter extends ArrayAdapter<Event> {
 
 	private EventsListActivity mActivity;
+//	private List<Event> mData = new ArrayList<Event>();
 	private List<Event> mData;
+
 
 	public EventsListAdapter(EventsListActivity a, int layoutId,
 			List<Event> data) {

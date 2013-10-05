@@ -5,18 +5,7 @@ import java.util.List;
 
 public class EventContent {
 
-	public static List<Event> ITEMS = new ArrayList<Event>();
-
-	static {
-		// Add 3 sample items.
-		addEvent(new Event("1", "Item 1", "1/1/13", "Noyce 3818", "chillin"));
-		addEvent(new Event("2", "Item 2", "6/6/1666", "yo mamas house", "killin"));
-		addEvent(new Event("3", "Item 3", "1/2/3456", "mordor", "makin a million"));
-	}
-
-	private static void addEvent(Event event) {
-		ITEMS.add(event);
-	}
+	public static List<Event> EventList = new ArrayList<Event>();
 
 	public static class Event {
 		protected String id;

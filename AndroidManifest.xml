@@ -39,6 +39,10 @@
             android:name="edu.grinnell.events.data.EventParser"
             android:label="@string/title_activity_event_parser" >
         </activity>
+        <activity
+            android:name="edu.grinnell.events.ParseTools"
+            android:label="@string/title_activity_parse_tools" >
+        </activity>
     </application>
 
 </manifest>

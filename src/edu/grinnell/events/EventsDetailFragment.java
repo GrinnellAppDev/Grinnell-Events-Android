@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.events_android.R;
 
+import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
 import edu.grinnell.events.data.PullEvents;
 
@@ -31,8 +32,9 @@ public class EventsDetailFragment extends Fragment {
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	private Event mItem;
-	List<Event> mData = PullEvents.EventList;
+	protected Event mItem;
+	protected List<Event> mData = EventContent.EventList;
+	protected String mID;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -47,8 +49,8 @@ public class EventsDetailFragment extends Fragment {
 
 		if (getArguments().containsKey(ARG_ITEM_ID)) {
 
-			String ID = getArguments().getString(ARG_ITEM_ID);
-			mItem = findEventByID(ID);
+			mID = getArguments().getString(ARG_ITEM_ID);
+			mItem = findEventByID(mID);
 
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader

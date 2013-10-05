@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,7 @@ import android.widget.ListView;
 
 import com.example.events_android.R;
 
-import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
-import edu.grinnell.events.data.PullEvents;
 
 
 
@@ -31,8 +30,9 @@ import edu.grinnell.events.data.PullEvents;
  */
 public class EventsListFragment extends ListFragment {
 
-	List<Event> mData = PullEvents.EventList;
-	Event mEvent = null;
+	public EventsListActivity mActivity;
+	public List<Event> mData;
+	public Event mEvent = null;
 
 	
 	/**
@@ -84,14 +84,15 @@ public class EventsListFragment extends ListFragment {
 	public EventsListFragment() {
 	}
 
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		EventsListActivity activity = (EventsListActivity) getActivity();
 		
-		//events is null here
-		EventsListAdapter adapter = new EventsListAdapter(activity, R.layout.events_row, mData);
+		mActivity = (EventsListActivity) getActivity();
+		//mData = mActivity.getEvents();
+		
+		EventsListAdapter adapter = new EventsListAdapter(mActivity, R.layout.events_row, mData);
 		setListAdapter(adapter);
 	}
 /*
