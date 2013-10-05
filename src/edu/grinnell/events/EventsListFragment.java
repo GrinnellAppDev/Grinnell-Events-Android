@@ -15,8 +15,8 @@ import android.widget.ListView;
 import com.example.events_android.R;
 
 import edu.grinnell.events.data.EventContent;
-import edu.grinnell.events.data.PullEvents;
 import edu.grinnell.events.data.EventContent.Event;
+import edu.grinnell.events.data.PullEvents;
 
 
 
@@ -31,6 +31,10 @@ import edu.grinnell.events.data.EventContent.Event;
  */
 public class EventsListFragment extends ListFragment {
 
+	List<Event> mData = PullEvents.EventList;
+	Event mEvent = null;
+
+	
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -87,7 +91,7 @@ public class EventsListFragment extends ListFragment {
 		EventsListActivity activity = (EventsListActivity) getActivity();
 		
 		//events is null here
-		EventsListAdapter adapter = new EventsListAdapter(activity, R.layout.events_row, PullEvents.EventList);
+		EventsListAdapter adapter = new EventsListAdapter(activity, R.layout.events_row, mData);
 		setListAdapter(adapter);
 	}
 /*
@@ -130,9 +134,11 @@ public class EventsListFragment extends ListFragment {
 			long id) {
 		super.onListItemClick(listView, view, position, id);
 
+		mEvent = mData.get(position);
+		
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(EventContent.ITEMS.get(position).getID());
+		mCallbacks.onItemSelected(mEvent.getID());
 	}
 
 	@Override

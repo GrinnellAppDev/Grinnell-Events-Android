@@ -12,7 +12,6 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import edu.grinnell.events.data.EventContent.Event;
 
 public class PullEvents {	

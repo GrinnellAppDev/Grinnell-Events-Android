@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="5dp" >
 
     <TextView
         android:id="@+id/titleText"
@@ -13,6 +15,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
+        android:paddingTop="7dp"
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
