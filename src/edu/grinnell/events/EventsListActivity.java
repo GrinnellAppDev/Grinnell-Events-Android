@@ -10,7 +10,12 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import com.example.events_android.R;
 import com.parse.FindCallback;
@@ -69,10 +74,10 @@ public class EventsListActivity extends FragmentActivity implements
 					.setActivateOnItemClick(true);
 
 		}
+
 		retrieveFromParse();
-}	
-	
-	
+	}
+
 	public void retrieveFromParse() {
 		Parse.initialize(this, "gxqIXbjvBCr7oYCYzNT2GYidbYv3Jiy4NJSJxxN3",
 				"S0FQadLhLS5ine1wsDQ2YY3rnOKsAD2eEqNNwdY6");
@@ -92,6 +97,36 @@ public class EventsListActivity extends FragmentActivity implements
 			}
 		});
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.activity_events_list, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_refresh:
+			//citation  http://stackoverflow.com/questions/18993532/how-to-clear-previous-presentation-of-data-in-the-listview-on-listfragment-exte
+			mData.clear();
+			FragmentManager fm = getSupportFragmentManager();
+			EventsListFragment lstFrag = (EventsListFragment) fm
+					.findFragmentById(R.id.fragment_container);
+			if (lstFrag != null) {
+				fm.beginTransaction().remove(lstFrag);
+				lstFrag.getListView().removeAllViewsInLayout();
+				retrieveFromParse();
+			}
+
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 	/**
 	 * Callback method from {@link EventsListFragment.Callbacks} indicating that
 	 * the item with the given ID was selected.
@@ -102,14 +137,14 @@ public class EventsListActivity extends FragmentActivity implements
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
-			
+
 			EventsDetailFragment fragment = new EventsDetailFragment();
 
 			Bundle arguments = new Bundle();
 			arguments.putString(EventsDetailFragment.ARG_ITEM_ID, id);
-			
+
 			fragment.setArguments(arguments);
-			
+
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.events_detail_container, fragment).commit();
 
@@ -139,38 +174,37 @@ public class EventsListActivity extends FragmentActivity implements
 			startDate = p_event.getDate("startTime");
 			endDate = p_event.getDate("endTime");
 			details = p_event.getString("detailDescription");
-			Event new_event = new Event(eventid, title, startDate, endDate, location,
-					details);
-			
+			Event new_event = new Event(eventid, title, startDate, endDate,
+					location, details);
+
 			EventContent.EventList.add(new_event);
 		}
 
 		mData = EventContent.EventList;
 		sortEventList();
-		
+
 		if (mData != null)
 			Log.d("events", "Retrieved " + mData.size() + " events");
 		else
 			Log.d("events", "event list empty");
-		
 
 		EventsListFragment eventList = new EventsListFragment();
 		eventList.mData = mData;
 
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, eventList).commit();
-				
+
 	}
-		
+
 	public class EventComparator implements Comparator<Event> {
 		@Override
-		public int compare(Event e1, Event e2){
+		public int compare(Event e1, Event e2) {
 			return e1.getStartTime().compareTo(e2.getStartTime());
 		}
 	}
-	
-	public void sortEventList(){
+
+	public void sortEventList() {
 		Collections.sort(mData, new EventComparator());
 	}
-	
+
 }

@@ -8,5 +8,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="no_events">No Events</string>
     <string name="add_to_calendar">Add To Calendar</string>
-    
+    <string name="action_refresh">Refresh</string>
+
 </resources>
