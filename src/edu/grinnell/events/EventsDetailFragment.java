@@ -1,10 +1,15 @@
 package edu.grinnell.events;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ListIterator;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,9 +37,9 @@ public class EventsDetailFragment extends Fragment {
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	protected Event mItem;
-	protected List<Event> mData = EventContent.EventList;
-	protected String mID;
+	public Event mItem;
+	public List<Event> mData = EventContent.EventList;
+	public String mID;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -51,13 +56,8 @@ public class EventsDetailFragment extends Fragment {
 
 			mID = getArguments().getString(ARG_ITEM_ID);
 			mItem = findEventByID(mID);
-
-			// Load the dummy content specified by the fragment
-			// arguments. In a real-world scenario, use a Loader
-			// to load content from a content provider.
-			// mItem = EventContent.ITEMS.get(0);
-
 		}
+
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class EventsDetailFragment extends Fragment {
 			((TextView) rootView.findViewById(R.id.events_location))
 					.setText(mItem.getLocation());
 			((TextView) rootView.findViewById(R.id.events_date)).setText(mItem
-					.getDate());
+					.getStartTime().toString());
 			((TextView) rootView.findViewById(R.id.events_id)).setText(mItem
 					.getID());
 

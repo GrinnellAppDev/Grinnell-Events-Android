@@ -1,6 +1,8 @@
 package edu.grinnell.events;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -67,12 +69,17 @@ public class EventsListActivity extends FragmentActivity implements
 					.setActivateOnItemClick(true);
 
 		}
-
+		retrieveFromParse();
+}	
+	
+	
+	public void retrieveFromParse() {
 		Parse.initialize(this, "gxqIXbjvBCr7oYCYzNT2GYidbYv3Jiy4NJSJxxN3",
 				"S0FQadLhLS5ine1wsDQ2YY3rnOKsAD2eEqNNwdY6");
 
 		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event");
 		event_query.setLimit(500);
+		event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 		event_query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> eventList, ParseException e) {
 				if (e == null) {
@@ -84,8 +91,7 @@ public class EventsListActivity extends FragmentActivity implements
 				}
 			}
 		});
-	}	
-
+	}
 	/**
 	 * Callback method from {@link EventsListFragment.Callbacks} indicating that
 	 * the item with the given ID was selected.
@@ -122,7 +128,7 @@ public class EventsListActivity extends FragmentActivity implements
 		String location;
 		String details;
 		Date startDate;
-		String startTime;
+		Date endDate;
 
 		Iterator<ParseObject> event_saver = p_event_list.iterator();
 		while (event_saver.hasNext()) {
@@ -131,15 +137,16 @@ public class EventsListActivity extends FragmentActivity implements
 			title = p_event.getString("title");
 			location = p_event.getString("location");
 			startDate = p_event.getDate("startTime");
-			startTime = startDate.toString();
+			endDate = p_event.getDate("endTime");
 			details = p_event.getString("detailDescription");
-			Event new_event = new Event(eventid, title, startTime, location,
+			Event new_event = new Event(eventid, title, startDate, endDate, location,
 					details);
 			
 			EventContent.EventList.add(new_event);
 		}
 
 		mData = EventContent.EventList;
+		sortEventList();
 		
 		if (mData != null)
 			Log.d("events", "Retrieved " + mData.size() + " events");
@@ -149,10 +156,21 @@ public class EventsListActivity extends FragmentActivity implements
 
 		EventsListFragment eventList = new EventsListFragment();
 		eventList.mData = mData;
-		
+
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, eventList).commit();
 				
+	}
+		
+	public class EventComparator implements Comparator<Event> {
+		@Override
+		public int compare(Event e1, Event e2){
+			return e1.getStartTime().compareTo(e2.getStartTime());
+		}
+	}
+	
+	public void sortEventList(){
+		Collections.sort(mData, new EventComparator());
 	}
 	
 }

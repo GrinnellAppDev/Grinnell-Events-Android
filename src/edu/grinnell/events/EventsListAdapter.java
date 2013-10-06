@@ -50,7 +50,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 
 			holder.title.setText(a.getTitle());
 			holder.title.setPadding(3, 3, 3, 3);
-			holder.date.setText(a.getDate());
+			holder.date.setText(a.getStartTime().toString());
 		}
 
 		return convertView;

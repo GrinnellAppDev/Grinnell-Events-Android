@@ -3,6 +3,7 @@ package edu.grinnell.events.data;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -118,7 +119,9 @@ public class EventParser {
 		}
 		
 		Log.i("parser", title);
-		return new EventContent.Event(id, title, date, location, details);
+		//return new EventContent.Event(id, title, date, location, details);
+		return new EventContent.Event(id, title, new Date(2013, 10, 1), new Date(2013, 10, 1),  location, details);
+
 	}
 
 	// Processes title tags in the feed.

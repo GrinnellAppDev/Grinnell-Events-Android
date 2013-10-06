@@ -1,12 +1,23 @@
 package edu.grinnell.events;
 
+import java.util.Calendar;
+import java.util.List;
+
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.events_android.R;
+
+import edu.grinnell.events.data.EventContent;
+import edu.grinnell.events.data.EventContent.Event;
 
 /**
  * An activity representing a single Events detail screen. This activity is only
@@ -18,6 +29,9 @@ import com.example.events_android.R;
  */
 public class EventsDetailActivity extends FragmentActivity {
 
+	public List<Event> mData = EventContent.EventList;
+
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,5 +78,36 @@ public class EventsDetailActivity extends FragmentActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void addEventToCalendar(View view) {
+
+		EventsDetailFragment detailFragment = (EventsDetailFragment) getSupportFragmentManager().findFragmentById(R.id.events_detail_container);
+		Event mItem = detailFragment.mItem;
+		
+		if (Build.VERSION.SDK_INT >= 14) {
+			Intent intent = new Intent(Intent.ACTION_INSERT)
+					.setData(Events.CONTENT_URI)
+					.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+							mItem.getStartTime().getTime())
+					.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+							mItem.getEndTime().getTime())
+					.putExtra(Events.TITLE, mItem.getTitle())
+					.putExtra(Events.DESCRIPTION, mItem.getDetails())
+					.putExtra(Events.EVENT_LOCATION, mItem.getLocation());
+			startActivity(intent);
+		} else {
+			Calendar cal = Calendar.getInstance();
+			Intent intent = new Intent(Intent.ACTION_EDIT);
+			intent.setType("vnd.android.cursor.item/event");
+			intent.putExtra("beginTime", mItem.getStartTime().getTime());
+			intent.putExtra("allDay", false);
+			intent.putExtra("endTime", mItem.getEndTime().getTime());
+			intent.putExtra("title", mItem.getTitle());
+			intent.putExtra("location", mItem.getLocation());
+			intent.putExtra("description", mItem.getDetails());
+			startActivity(intent);
+		}
+
 	}
 }
