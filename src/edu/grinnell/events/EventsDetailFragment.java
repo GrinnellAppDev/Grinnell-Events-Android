@@ -1,33 +1,26 @@
 package edu.grinnell.events;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.ListIterator;
 
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Events;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.example.events_android.R;
 
 import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
-import edu.grinnell.events.data.PullEvents;
 
 /**
  * A fragment representing a single Events detail screen. This fragment is
  * either contained in a {@link EventsListActivity} in two-pane mode (on
  * tablets) or a {@link EventsDetailActivity} on handsets.
  */
-public class EventsDetailFragment extends Fragment {
+public class EventsDetailFragment extends SherlockFragment {
 	/**
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.

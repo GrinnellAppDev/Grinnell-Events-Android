@@ -9,14 +9,13 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.events_android.R;
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -43,7 +42,7 @@ import edu.grinnell.events.data.EventContent.Event;
  * {@link EventsListFragment.Callbacks} interface to listen for item selections.
  */
 
-public class EventsListActivity extends FragmentActivity implements
+public class EventsListActivity extends SherlockFragmentActivity implements
 		EventsListFragment.Callbacks {
 
 	final public static String FEED = "http://schedule25wb.grinnell.edu/rssfeeds/memo.xml";
@@ -98,6 +97,7 @@ public class EventsListActivity extends FragmentActivity implements
 		});
 	}
 
+	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
@@ -126,6 +126,7 @@ public class EventsListActivity extends FragmentActivity implements
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	*/
 
 	/**
 	 * Callback method from {@link EventsListFragment.Callbacks} indicating that

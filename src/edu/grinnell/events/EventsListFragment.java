@@ -4,8 +4,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.example.events_android.R;
 
 import edu.grinnell.events.data.EventContent.Event;
@@ -28,7 +27,7 @@ import edu.grinnell.events.data.EventContent.Event;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class EventsListFragment extends ListFragment {
+public class EventsListFragment extends SherlockListFragment {
 
 	public EventsListActivity mActivity;
 	public List<Event> mData;

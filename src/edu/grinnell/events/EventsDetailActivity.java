@@ -1,20 +1,12 @@
 package edu.grinnell.events;
 
-import java.util.Calendar;
 import java.util.List;
 
-import android.annotation.SuppressLint;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Events;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.view.MenuItem;
 import android.view.View;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.events_android.R;
 
 import edu.grinnell.events.data.EventContent;
@@ -28,18 +20,17 @@ import edu.grinnell.events.data.EventContent.Event;
  * This activity is mostly just a 'shell' activity containing nothing more than
  * a {@link EventsDetailFragment}.
  */
-public class EventsDetailActivity extends FragmentActivity {
+public class EventsDetailActivity extends SherlockFragmentActivity {
 
 	public List<Event> mData = EventContent.EventList;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_events_detail);
 
 		// Show the Up button in the action bar.
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// savedInstanceState is non-null when there is fragment state
 		// saved from previous configurations of this activity
@@ -63,39 +54,20 @@ public class EventsDetailActivity extends FragmentActivity {
 		}
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpTo(this, new Intent(this,
-					EventsListActivity.class));
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
-	@SuppressLint("NewApi")
 	public void addEventToCalendar(View view) {
 
-		EventsDetailFragment detailFragment = (EventsDetailFragment) getSupportFragmentManager().findFragmentById(R.id.events_detail_container);
+		EventsDetailFragment detailFragment = (EventsDetailFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.events_detail_container);
 		Event mItem = detailFragment.mItem;
-		
 
-			Intent intent = new Intent(Intent.ACTION_EDIT);
-			intent.setType("vnd.android.cursor.item/event");
-			intent.putExtra("beginTime", mItem.getStartTime().getTime());
-			intent.putExtra("allDay", false);
-			intent.putExtra("endTime", mItem.getEndTime().getTime());
-			intent.putExtra("title", mItem.getTitle());
-			intent.putExtra("eventLocation", mItem.getLocation());
-			intent.putExtra("description", mItem.getDetails());
-			startActivity(intent);
+		Intent intent = new Intent(Intent.ACTION_EDIT);
+		intent.setType("vnd.android.cursor.item/event");
+		intent.putExtra("beginTime", mItem.getStartTime().getTime());
+		intent.putExtra("allDay", false);
+		intent.putExtra("endTime", mItem.getEndTime().getTime());
+		intent.putExtra("title", mItem.getTitle());
+		intent.putExtra("eventLocation", mItem.getLocation());
+		intent.putExtra("description", mItem.getDetails());
+		startActivity(intent);
 	}
 }
