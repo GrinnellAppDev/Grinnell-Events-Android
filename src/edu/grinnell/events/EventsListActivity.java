@@ -6,16 +6,19 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.example.events_android.R;
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -47,6 +50,10 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 
 	final public static String FEED = "http://schedule25wb.grinnell.edu/rssfeeds/memo.xml";
 	public List<Event> mData = new ArrayList<Event>();
+
+	public int mDay;
+	public int mMonth;
+	public int mYear;
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -97,11 +104,9 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		});
 	}
 
-	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.activity_events_list, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -110,7 +115,6 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
-			//citation  http://stackoverflow.com/questions/18993532/how-to-clear-previous-presentation-of-data-in-the-listview-on-listfragment-exte
 			mData.clear();
 			FragmentManager fm = getSupportFragmentManager();
 			EventsListFragment lstFrag = (EventsListFragment) fm
@@ -120,13 +124,14 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 				lstFrag.getListView().removeAllViewsInLayout();
 				retrieveFromParse();
 			}
-
+			return true;
+		case R.id.action_pick_date:
+			showDatePickerDialog();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	*/
 
 	/**
 	 * Callback method from {@link EventsListFragment.Callbacks} indicating that
@@ -206,6 +211,16 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 
 	public void sortEventList() {
 		Collections.sort(mData, new EventComparator());
+	}
+
+	public void showDatePickerDialog() {
+		DialogFragment newFragment = new DatePickerFragment();
+		newFragment.show(getSupportFragmentManager(), "datePicker");
+		filterEvents(mDay, mMonth, mYear);
+	}
+	
+	public void filterEvents(int day, int month, int year){
+		
 	}
 
 }

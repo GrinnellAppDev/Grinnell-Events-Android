@@ -9,5 +9,6 @@
     <string name="no_events">No Events</string>
     <string name="add_to_calendar">Add To Calendar</string>
     <string name="action_refresh">Refresh</string>
+    <string name="action_pick_date">Choose Date</string>
 
 </resources>
