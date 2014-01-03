@@ -1,19 +1,18 @@
 package edu.grinnell.events;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -186,19 +185,11 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 			EventContent.EventList.add(new_event);
 		}
 
-		mData = EventContent.EventList;
-		sortEventList();
-
-		if (mData != null)
-			Log.d("events", "Retrieved " + mData.size() + " events");
-		else
-			Log.d("events", "event list empty");
-
-		EventsListFragment eventList = new EventsListFragment();
-		eventList.mData = mData;
-
-		getSupportFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, eventList).commit();
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		filterEventsByDay(day, month, year);
 
 	}
 
@@ -216,11 +207,52 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 	public void showDatePickerDialog() {
 		DialogFragment newFragment = new DatePickerFragment();
 		newFragment.show(getSupportFragmentManager(), "datePicker");
-		filterEvents(mDay, mMonth, mYear);
+		filterEventsByDay(mDay, mMonth, mYear);
 	}
-	
-	public void filterEvents(int day, int month, int year){
-		
+
+	public void filterEventsByDay(int day, int month, int year) {
+		Date selectedDate = new Date(day, month, year);
+
+		Log.i("Events List", "Retrieving events for " + month + "/" + day + "/"
+				+ year);
+
+		mData.clear();
+
+		Event thisEvent;
+
+		Iterator<Event> eventIter = EventContent.EventList.listIterator();
+		while (eventIter.hasNext()) {
+			thisEvent = eventIter.next();
+			if (selectedDate.getDay() == thisEvent.getStartTime().getDay()
+					&& selectedDate.getMonth() == thisEvent.getStartTime()
+							.getMonth())
+				mData.add(thisEvent);
+		}
+
+		populateList(mData);
+	}
+
+	public void populateList(List<Event> data) {
+
+		if (mData != null)
+			Log.d("events", "Retrieved " + mData.size() + " events");
+		else
+			Log.d("events", "event list empty");
+
+		sortEventList();
+
+		FragmentManager fm = getSupportFragmentManager();
+		EventsListFragment lstFrag = (EventsListFragment) fm
+				.findFragmentById(R.id.fragment_container);
+		if (lstFrag != null) {
+			fm.beginTransaction().remove(lstFrag);
+			lstFrag.getListView().removeAllViewsInLayout();
+		}
+		EventsListFragment eventList = new EventsListFragment();
+		eventList.mData = mData;
+
+		getSupportFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, eventList).commit();
 	}
 
 }

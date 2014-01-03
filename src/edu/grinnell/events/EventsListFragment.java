@@ -17,16 +17,6 @@ import com.example.events_android.R;
 import edu.grinnell.events.data.EventContent.Event;
 
 
-
-/**
- * A list fragment representing a list of Events. This fragment also supports
- * tablet devices by allowing list items to be given an 'activated' state upon
- * selection. This helps indicate which item is currently being viewed in a
- * {@link EventsDetailFragment}.
- * <p>
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
- */
 public class EventsListFragment extends SherlockListFragment {
 
 	public EventsListActivity mActivity;
@@ -34,16 +24,8 @@ public class EventsListFragment extends SherlockListFragment {
 	public Event mEvent = null;
 
 	
-	/**
-	 * The serialization (saved instance state) Bundle key representing the
-	 * activated item position. Only used on tablets.
-	 */
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
-	/**
-	 * The fragment's current callback object, which is notified of list item
-	 * clicks.
-	 */
 	private Callbacks mCallbacks = sDummyCallbacks;
 
 	/**
@@ -89,12 +71,11 @@ public class EventsListFragment extends SherlockListFragment {
 		super.onCreate(savedInstanceState);
 		
 		mActivity = (EventsListActivity) getActivity();
-		//mData = mActivity.getEvents();
 		
 		EventsListAdapter adapter = new EventsListAdapter(mActivity, R.layout.events_row, mData);
 		setListAdapter(adapter);
 	}
-/*
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -106,7 +87,7 @@ public class EventsListFragment extends SherlockListFragment {
 					.getInt(STATE_ACTIVATED_POSITION));
 		}
 	}
-	*/
+	
 
 	@Override
 	public void onAttach(Activity activity) {
