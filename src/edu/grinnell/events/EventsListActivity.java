@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,31 +29,12 @@ import com.parse.ParseQuery;
 import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
 
-/**
- * An activity representing a list of Events. This activity has different
- * presentations for handset and tablet-size devices. On handsets, the activity
- * presents a list of items, which when touched, lead to a
- * {@link EventsDetailActivity} representing item details. On tablets, the
- * activity presents the list of items and item details side-by-side using two
- * vertical panes.
- * <p>
- * The activity makes heavy use of fragments. The list of items is a
- * {@link EventsListFragment} and the item details (if present) is a
- * {@link EventsDetailFragment}.
- * <p>
- * This activity also implements the required
- * {@link EventsListFragment.Callbacks} interface to listen for item selections.
- */
-
 public class EventsListActivity extends SherlockFragmentActivity implements
 		EventsListFragment.Callbacks {
 
 	final public static String FEED = "http://schedule25wb.grinnell.edu/rssfeeds/memo.xml";
 	public List<Event> mData = new ArrayList<Event>();
-
-	public int mDay;
-	public int mMonth;
-	public int mYear;
+	String TAG = "EVENTS_LIST_ACTIVITY";
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -65,42 +47,14 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_events_list);
 
-		if (findViewById(R.id.events_detail_container) != null) {
-			// The detail container view will be present only in the
-			// large-screen layouts (res/values-large and
-			// res/values-sw600dp). If this view is present, then the
-			// activity should be in two-pane mode.
-			mTwoPane = true;
-
-			// In two-pane mode, list items should be given the
-			// 'activated' state when touched.
-			((EventsListFragment) getSupportFragmentManager().findFragmentById(
-					R.layout.fragment_events_list))
-					.setActivateOnItemClick(true);
-
-		}
-
-		retrieveFromParse();
-	}
-
-	public void retrieveFromParse() {
-		Parse.initialize(this, "gxqIXbjvBCr7oYCYzNT2GYidbYv3Jiy4NJSJxxN3",
+		Parse.initialize(getApplication(),
+				"gxqIXbjvBCr7oYCYzNT2GYidbYv3Jiy4NJSJxxN3",
 				"S0FQadLhLS5ine1wsDQ2YY3rnOKsAD2eEqNNwdY6");
 
-		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event");
-		event_query.setLimit(500);
-		event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
-		event_query.findInBackground(new FindCallback<ParseObject>() {
-			public void done(List<ParseObject> eventList, ParseException e) {
-				if (e == null) {
-					Log.d("score", "Retrieved " + eventList.size() + " events");
-					// p_event_list = eventList;
-					saveToList(eventList);
-				} else {
-					Log.d("score", "Error: " + e.getMessage());
-				}
-			}
-		});
+		Calendar today = new GregorianCalendar();
+
+		filterEventsByDay(today.get(Calendar.DAY_OF_MONTH),
+				today.get(Calendar.MONTH), today.get(Calendar.YEAR));
 	}
 
 	@Override
@@ -113,17 +67,6 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.action_refresh:
-			mData.clear();
-			FragmentManager fm = getSupportFragmentManager();
-			EventsListFragment lstFrag = (EventsListFragment) fm
-					.findFragmentById(R.id.fragment_container);
-			if (lstFrag != null) {
-				fm.beginTransaction().remove(lstFrag);
-				lstFrag.getListView().removeAllViewsInLayout();
-				retrieveFromParse();
-			}
-			return true;
 		case R.id.action_pick_date:
 			showDatePickerDialog();
 			return true;
@@ -132,34 +75,29 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		}
 	}
 
-	/**
-	 * Callback method from {@link EventsListFragment.Callbacks} indicating that
-	 * the item with the given ID was selected.
-	 */
 	@Override
 	public void onItemSelected(String id) {
-		if (mTwoPane) {
-			// In two-pane mode, show the detail view in this activity by
-			// adding or replacing the detail fragment using a
-			// fragment transaction.
+		Intent detailIntent = new Intent(this, EventsDetailActivity.class);
+		detailIntent.putExtra(EventsDetailFragment.ARG_ITEM_ID, id);
+		startActivity(detailIntent);
+	}
 
-			EventsDetailFragment fragment = new EventsDetailFragment();
+	public void retrieveDateFromParse(String selectedDate) {
 
-			Bundle arguments = new Bundle();
-			arguments.putString(EventsDetailFragment.ARG_ITEM_ID, id);
+		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event");
+		event_query.whereEqualTo("date", selectedDate);
+		event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
-			fragment.setArguments(arguments);
-
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.events_detail_container, fragment).commit();
-
-		} else {
-			// In single-pane mode, simply start the detail activity
-			// for the selected item ID.
-			Intent detailIntent = new Intent(this, EventsDetailActivity.class);
-			detailIntent.putExtra(EventsDetailFragment.ARG_ITEM_ID, id);
-			startActivity(detailIntent);
-		}
+		event_query.findInBackground(new FindCallback<ParseObject>() {
+			public void done(List<ParseObject> eventList, ParseException e) {
+				if (e == null) {
+					Log.d(TAG, "Retrieved " + eventList.size() + " events");
+					saveToList(eventList);
+				} else {
+					Log.d(TAG, "Error: " + e.getMessage());
+				}
+			}
+		});
 	}
 
 	protected void saveToList(List<ParseObject> p_event_list) {
@@ -185,12 +123,9 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 			EventContent.EventList.add(new_event);
 		}
 
-		Calendar c = Calendar.getInstance();
-		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH);
-		int day = c.get(Calendar.DAY_OF_MONTH);
-		filterEventsByDay(day, month, year);
+		mData = EventContent.EventList;
 
+		populateList(mData);
 	}
 
 	public class EventComparator implements Comparator<Event> {
@@ -207,29 +142,95 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 	public void showDatePickerDialog() {
 		DialogFragment newFragment = new DatePickerFragment();
 		newFragment.show(getSupportFragmentManager(), "datePicker");
-		filterEventsByDay(mDay, mMonth, mYear);
 	}
 
 	public void filterEventsByDay(int day, int month, int year) {
-		Date selectedDate = new Date(day, month, year);
 
-		Log.i("Events List", "Retrieving events for " + month + "/" + day + "/"
-				+ year);
+		String dateString = formDateString(day, month, year);
 
-		mData.clear();
+		retrieveDateFromParse(dateString);
+	}
 
-		Event thisEvent;
+	public String formDateString(int day, int month, int year) {
 
-		Iterator<Event> eventIter = EventContent.EventList.listIterator();
-		while (eventIter.hasNext()) {
-			thisEvent = eventIter.next();
-			if (selectedDate.getDay() == thisEvent.getStartTime().getDay()
-					&& selectedDate.getMonth() == thisEvent.getStartTime()
-							.getMonth())
-				mData.add(thisEvent);
+		Calendar selectedDate = new GregorianCalendar(year, month, day);
+
+		String day_of_week;
+		switch (selectedDate.get(Calendar.DAY_OF_WEEK)) {
+		case Calendar.MONDAY:
+			day_of_week = "Mon";
+			break;
+		case Calendar.TUESDAY:
+			day_of_week = "Tue";
+			break;
+		case Calendar.WEDNESDAY:
+			day_of_week = "Wed";
+			break;
+		case Calendar.THURSDAY:
+			day_of_week = "Thu";
+			break;
+		case Calendar.FRIDAY:
+			day_of_week = "Fri";
+			break;
+		case Calendar.SATURDAY:
+			day_of_week = "Sat";
+			break;
+		case Calendar.SUNDAY:
+			day_of_week = "Sun";
+			break;
+		default:
+			day_of_week = "Unknown Day";
 		}
 
-		populateList(mData);
+		String monthString = "Unknown Month";
+		switch (selectedDate.get(Calendar.MONTH)) {
+		case Calendar.JANUARY:
+			monthString = "Jan";
+			break;
+		case Calendar.FEBRUARY:
+			monthString = "Feb";
+			break;
+		case Calendar.MARCH:
+			monthString = "Mar";
+			break;
+		case Calendar.APRIL:
+			monthString = "Apr";
+			break;
+		case Calendar.MAY:
+			monthString = "May";
+			break;
+		case Calendar.JUNE:
+			monthString = "Jun";
+			break;
+		case Calendar.JULY:
+			monthString = "Jul";
+			break;
+		case Calendar.AUGUST:
+			monthString = "Aug";
+			break;
+		case Calendar.SEPTEMBER:
+			monthString = "Sep";
+			break;
+		case Calendar.OCTOBER:
+			monthString = "Oct";
+			break;
+		case Calendar.NOVEMBER:
+			monthString = "Nov";
+			break;
+		case Calendar.DECEMBER:
+			monthString = "Dec";
+			break;
+		default:
+			day_of_week = "Unknown Month";
+		}
+
+		String dateString = day_of_week + " " + monthString + " "
+				+ selectedDate.get(Calendar.DAY_OF_MONTH) + " "
+				+ selectedDate.get(Calendar.YEAR);
+
+		Log.i(TAG, dateString);
+
+		return dateString;
 	}
 
 	public void populateList(List<Event> data) {
@@ -249,7 +250,6 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 			lstFrag.getListView().removeAllViewsInLayout();
 		}
 		EventsListFragment eventList = new EventsListFragment();
-		eventList.mData = mData;
 
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, eventList).commit();

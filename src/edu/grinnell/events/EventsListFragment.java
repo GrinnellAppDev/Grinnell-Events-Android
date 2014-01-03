@@ -71,6 +71,7 @@ public class EventsListFragment extends SherlockListFragment {
 		super.onCreate(savedInstanceState);
 		
 		mActivity = (EventsListActivity) getActivity();
+		mData = mActivity.mData;
 		
 		EventsListAdapter adapter = new EventsListAdapter(mActivity, R.layout.events_row, mData);
 		setListAdapter(adapter);
