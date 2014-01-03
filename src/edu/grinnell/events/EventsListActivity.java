@@ -53,6 +53,7 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 
 		Calendar today = new GregorianCalendar();
 
+		/* Open the events for today by default */
 		filterEventsByDay(today.get(Calendar.DAY_OF_MONTH),
 				today.get(Calendar.MONTH), today.get(Calendar.YEAR));
 	}
@@ -75,6 +76,7 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		}
 	}
 
+	/* Open the detail page for an event */
 	@Override
 	public void onItemSelected(String id) {
 		Intent detailIntent = new Intent(this, EventsDetailActivity.class);
@@ -82,6 +84,7 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		startActivity(detailIntent);
 	}
 
+	/* Query the events for a specific day */
 	public void retrieveDateFromParse(String selectedDate) {
 
 		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event");
@@ -100,6 +103,7 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		});
 	}
 
+	/* Save the parse objects to a list of event objects */
 	protected void saveToList(List<ParseObject> p_event_list) {
 		String eventid;
 		String title;
@@ -107,6 +111,8 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		String details;
 		Date startDate;
 		Date endDate;
+
+		EventContent.EventList.clear();
 
 		Iterator<ParseObject> event_saver = p_event_list.iterator();
 		while (event_saver.hasNext()) {
@@ -128,6 +134,11 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		populateList(mData);
 	}
 
+	/* sort the event list so that later events come after earlier events */
+	public void sortEventList() {
+		Collections.sort(mData, new EventComparator());
+	}
+
 	public class EventComparator implements Comparator<Event> {
 		@Override
 		public int compare(Event e1, Event e2) {
@@ -135,22 +146,48 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		}
 	}
 
-	public void sortEventList() {
-		Collections.sort(mData, new EventComparator());
-	}
-
+	/* The dialog to allow users to select a specific date */
 	public void showDatePickerDialog() {
 		DialogFragment newFragment = new DatePickerFragment();
 		newFragment.show(getSupportFragmentManager(), "datePicker");
 	}
 
+	/* Called by the date picker to query the events for a single day */
 	public void filterEventsByDay(int day, int month, int year) {
-
 		String dateString = formDateString(day, month, year);
-
 		retrieveDateFromParse(dateString);
 	}
 
+	/*
+	 * This method will clear the previous event list fragment and insert a new
+	 * list cooresponding with the selected day
+	 */
+	public void populateList(List<Event> data) {
+
+		sortEventList();
+
+		FragmentManager fm = getSupportFragmentManager();
+
+		EventsListFragment lstFrag = (EventsListFragment) fm
+				.findFragmentById(R.id.fragment_container);
+
+		if (lstFrag != null) {
+			fm.beginTransaction().remove(lstFrag);
+			lstFrag.getListView().removeAllViewsInLayout();
+		}
+
+		EventsListFragment eventList = new EventsListFragment();
+
+		getSupportFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, eventList).commit();
+	}
+
+	/*
+	 * Form at date string formated to be the same as how the event data is
+	 * stored in parse. TODO once we have the real event data we should store
+	 * the date as a date type instead of a string so that this conversion is no
+	 * longer nessesary.
+	 */
 	public String formDateString(int day, int month, int year) {
 
 		Calendar selectedDate = new GregorianCalendar(year, month, day);
@@ -231,28 +268,6 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		Log.i(TAG, dateString);
 
 		return dateString;
-	}
-
-	public void populateList(List<Event> data) {
-
-		if (mData != null)
-			Log.d("events", "Retrieved " + mData.size() + " events");
-		else
-			Log.d("events", "event list empty");
-
-		sortEventList();
-
-		FragmentManager fm = getSupportFragmentManager();
-		EventsListFragment lstFrag = (EventsListFragment) fm
-				.findFragmentById(R.id.fragment_container);
-		if (lstFrag != null) {
-			fm.beginTransaction().remove(lstFrag);
-			lstFrag.getListView().removeAllViewsInLayout();
-		}
-		EventsListFragment eventList = new EventsListFragment();
-
-		getSupportFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, eventList).commit();
 	}
 
 }
