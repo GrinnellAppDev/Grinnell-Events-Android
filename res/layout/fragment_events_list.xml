@@ -11,12 +11,13 @@
         
         android:paddingLeft="0dp"
         android:paddingRight="0dp" />
-
+ 
     <TextView
         android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_events"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+        
 
 </LinearLayout>

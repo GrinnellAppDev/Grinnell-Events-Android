@@ -59,7 +59,6 @@ public class EventsDetailFragment extends SherlockFragment {
 		View rootView = inflater.inflate(R.layout.fragment_events_detail,
 				container, false);
 
-		// Show the dummy content as text in a TextView.
 		if (mItem != null) {
 			((TextView) rootView.findViewById(R.id.events_title)).setText(mItem
 					.getTitle());

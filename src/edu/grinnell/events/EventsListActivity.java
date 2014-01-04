@@ -168,18 +168,9 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 
 		FragmentManager fm = getSupportFragmentManager();
 
-		EventsListFragment lstFrag = (EventsListFragment) fm
-				.findFragmentById(R.id.fragment_container);
-
-		if (lstFrag != null) {
-			fm.beginTransaction().remove(lstFrag);
-			lstFrag.getListView().removeAllViewsInLayout();
-		}
-
 		EventsListFragment eventList = new EventsListFragment();
 
-		getSupportFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, eventList).commit();
+		fm.beginTransaction().replace(R.id.fragment_container, eventList).commit();
 	}
 
 	/*
