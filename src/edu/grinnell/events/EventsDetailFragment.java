@@ -3,6 +3,7 @@ package edu.grinnell.events;
 import java.util.List;
 import java.util.ListIterator;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,23 +16,13 @@ import com.example.events_android.R;
 import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
 
-/**
- * A fragment representing a single Events detail screen. This fragment is
- * either contained in a {@link EventsListActivity} in two-pane mode (on
- * tablets) or a {@link EventsDetailActivity} on handsets.
- */
 public class EventsDetailFragment extends SherlockFragment {
-	/**
-	 * The fragment argument representing the item ID that this fragment
-	 * represents.
-	 */
+
 	public static final String ARG_ITEM_ID = "item_id";
 
-	/**
-	 * The dummy content this fragment is presenting.
-	 */
+	EventsListActivity mActivity;
 	public Event mItem;
-	public List<Event> mData = EventContent.EventList;
+	public List<Event> mData;
 	public String mID;
 
 	/**
@@ -45,11 +36,10 @@ public class EventsDetailFragment extends SherlockFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
-
-			mID = getArguments().getString(ARG_ITEM_ID);
+			mActivity = (EventsListActivity) getActivity();
+			mData = mActivity.mData;
+			mID = mActivity.mEventID;
 			mItem = findEventByID(mID);
-		}
 
 	}
 

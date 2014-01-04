@@ -33,14 +33,10 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		EventsListFragment.Callbacks {
 
 	final public static String FEED = "http://schedule25wb.grinnell.edu/rssfeeds/memo.xml";
-	public List<Event> mData = new ArrayList<Event>();
 	String TAG = "EVENTS_LIST_ACTIVITY";
 
-	/**
-	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-	 * device.
-	 */
-	private boolean mTwoPane;
+	protected List<Event> mData = new ArrayList<Event>();
+	protected String mEventID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +75,13 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 	/* Open the detail page for an event */
 	@Override
 	public void onItemSelected(String id) {
-		Intent detailIntent = new Intent(this, EventsDetailActivity.class);
-		detailIntent.putExtra(EventsDetailFragment.ARG_ITEM_ID, id);
-		startActivity(detailIntent);
+
+		mEventID = id;
+		FragmentManager fm = getSupportFragmentManager();
+		EventsDetailFragment eventDetails = new EventsDetailFragment();
+		fm.beginTransaction().replace(R.id.fragment_container, eventDetails)
+				.addToBackStack("EventList").commit();
+
 	}
 
 	/* Query the events for a specific day */
@@ -165,12 +165,10 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 	public void populateList(List<Event> data) {
 
 		sortEventList();
-
 		FragmentManager fm = getSupportFragmentManager();
-
 		EventsListFragment eventList = new EventsListFragment();
-
-		fm.beginTransaction().replace(R.id.fragment_container, eventList).commit();
+		fm.beginTransaction().replace(R.id.fragment_container, eventList)
+				.commit();
 	}
 
 	/*
@@ -259,6 +257,19 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		Log.i(TAG, dateString);
 
 		return dateString;
+	}
+
+	public void addEventToCalendar(Event mItem) {
+
+		Intent intent = new Intent(Intent.ACTION_EDIT);
+		intent.setType("vnd.android.cursor.item/event");
+		intent.putExtra("beginTime", mItem.getStartTime().getTime());
+		intent.putExtra("allDay", false);
+		intent.putExtra("endTime", mItem.getEndTime().getTime());
+		intent.putExtra("title", mItem.getTitle());
+		intent.putExtra("eventLocation", mItem.getLocation());
+		intent.putExtra("description", mItem.getDetails());
+		startActivity(intent);
 	}
 
 }
