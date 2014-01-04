@@ -3,7 +3,6 @@ package edu.grinnell.events;
 import java.util.List;
 import java.util.ListIterator;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +12,9 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.example.events_android.R;
 
-import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
 
 public class EventsDetailFragment extends SherlockFragment {
-
-	public static final String ARG_ITEM_ID = "item_id";
 
 	EventsListActivity mActivity;
 	public Event mItem;
@@ -39,7 +35,7 @@ public class EventsDetailFragment extends SherlockFragment {
 			mActivity = (EventsListActivity) getActivity();
 			mData = mActivity.mData;
 			mID = mActivity.mEventID;
-			mItem = findEventByID(mID);
+			mItem = mActivity.mSelectedEvent;
 
 	}
 
@@ -64,15 +60,5 @@ public class EventsDetailFragment extends SherlockFragment {
 		}
 
 		return rootView;
-	}
-
-	public Event findEventByID(String ID) {
-		ListIterator<Event> iter = mData.listIterator();
-		while (iter.hasNext()) {
-			if (ID.compareTo(iter.next().getID()) == 0) {
-				return iter.previous();
-			}
-		}
-		return null;
 	}
 }

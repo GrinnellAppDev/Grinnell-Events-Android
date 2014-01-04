@@ -8,12 +8,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -32,11 +34,11 @@ import edu.grinnell.events.data.EventContent.Event;
 public class EventsListActivity extends SherlockFragmentActivity implements
 		EventsListFragment.Callbacks {
 
-	final public static String FEED = "http://schedule25wb.grinnell.edu/rssfeeds/memo.xml";
 	String TAG = "EVENTS_LIST_ACTIVITY";
 
 	protected List<Event> mData = new ArrayList<Event>();
 	protected String mEventID;
+	protected Event mSelectedEvent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +79,27 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 	public void onItemSelected(String id) {
 
 		mEventID = id;
+		mSelectedEvent = findEventByID(id);
+		
 		FragmentManager fm = getSupportFragmentManager();
 		EventsDetailFragment eventDetails = new EventsDetailFragment();
 		fm.beginTransaction().replace(R.id.fragment_container, eventDetails)
 				.addToBackStack("EventList").commit();
 
 	}
+	
+	// Return the event cooresponding with a given ID
+	public Event findEventByID(String ID) {
+		ListIterator<Event> iter = mData.listIterator();
+		while (iter.hasNext()) {
+			if (ID.compareTo(iter.next().getID()) == 0) {
+				return iter.previous();
+			}
+		}
+		return null;
+	}
 
-	/* Query the events for a specific day */
+	/* Query the events for a specific day from the Parse database*/
 	public void retrieveDateFromParse(String selectedDate) {
 
 		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event");
@@ -128,9 +143,7 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 
 			EventContent.EventList.add(new_event);
 		}
-
 		mData = EventContent.EventList;
-
 		populateList(mData);
 	}
 
@@ -160,7 +173,7 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 
 	/*
 	 * This method will clear the previous event list fragment and insert a new
-	 * list cooresponding with the selected day
+	 * list cooresponding with the new event list
 	 */
 	public void populateList(List<Event> data) {
 
@@ -259,16 +272,16 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		return dateString;
 	}
 
-	public void addEventToCalendar(Event mItem) {
-
+	/* Add the event to a calendar selected by the user */
+	public void addEventToCalendar(View view) {		
 		Intent intent = new Intent(Intent.ACTION_EDIT);
 		intent.setType("vnd.android.cursor.item/event");
-		intent.putExtra("beginTime", mItem.getStartTime().getTime());
+		intent.putExtra("beginTime", mSelectedEvent.getStartTime().getTime());
 		intent.putExtra("allDay", false);
-		intent.putExtra("endTime", mItem.getEndTime().getTime());
-		intent.putExtra("title", mItem.getTitle());
-		intent.putExtra("eventLocation", mItem.getLocation());
-		intent.putExtra("description", mItem.getDetails());
+		intent.putExtra("endTime", mSelectedEvent.getEndTime().getTime());
+		intent.putExtra("title", mSelectedEvent.getTitle());
+		intent.putExtra("eventLocation", mSelectedEvent.getLocation());
+		intent.putExtra("description", mSelectedEvent.getDetails());
 		startActivity(intent);
 	}
 
