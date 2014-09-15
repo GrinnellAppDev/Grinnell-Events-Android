@@ -10,9 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +30,8 @@ import com.parse.ParseQuery;
 
 import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
+
+
 
 public class EventsListActivity extends SherlockFragmentActivity implements
 		EventsListFragment.Callbacks {
@@ -162,7 +164,8 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 	/* The dialog to allow users to select a specific date */
 	public void showDatePickerDialog() {
 		DialogFragment newFragment = new DatePickerFragment();
-		newFragment.show(getSupportFragmentManager(), "datePicker");
+		newFragment.show(getFragmentManager(), "datePicker");
+
 	}
 
 	/* Called by the date picker to query the events for a single day */

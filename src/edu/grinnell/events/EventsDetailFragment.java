@@ -1,7 +1,6 @@
 package edu.grinnell.events;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
