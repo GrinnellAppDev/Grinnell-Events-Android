@@ -31,8 +31,6 @@ import com.parse.ParseQuery;
 import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
 
-
-
 public class EventsListActivity extends SherlockFragmentActivity implements
 		EventsListFragment.Callbacks {
 
@@ -82,14 +80,14 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 
 		mEventID = id;
 		mSelectedEvent = findEventByID(id);
-		
+
 		FragmentManager fm = getSupportFragmentManager();
 		EventsDetailFragment eventDetails = new EventsDetailFragment();
 		fm.beginTransaction().replace(R.id.fragment_container, eventDetails)
 				.addToBackStack("EventList").commit();
 
 	}
-	
+
 	// Return the event cooresponding with a given ID
 	public Event findEventByID(String ID) {
 		ListIterator<Event> iter = mData.listIterator();
@@ -101,7 +99,7 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 		return null;
 	}
 
-	/* Query the events for a specific day from the Parse database*/
+	/* Query the events for a specific day from the Parse database */
 	public void retrieveDateFromParse(String selectedDate) {
 
 		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event");
@@ -276,7 +274,7 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 	}
 
 	/* Add the event to a calendar selected by the user */
-	public void addEventToCalendar(View view) {		
+	public void addEventToCalendar(View view) {
 		Intent intent = new Intent(Intent.ACTION_EDIT);
 		intent.setType("vnd.android.cursor.item/event");
 		intent.putExtra("beginTime", mSelectedEvent.getStartTime().getTime());
