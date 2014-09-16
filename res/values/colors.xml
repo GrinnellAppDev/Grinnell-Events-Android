@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="DarkGrey">#484848</color>
+    <color name="LightGrey">#d3d3d3</color>
+    <color name="VeryLightGrey">#F0F0F0 </color>
+    <color name="Indigo">#4B0082</color>
+    <color name="MidPurple">#7D26CD</color>
+    <color name="LightPurple">#9B30FF</color>
+    <color name="VeryLightPurple">#BF5FFF</color>
+    <color name="Ivory">#FFFFF0</color>
+    <color name="DarkOliveGreen">#556B2F</color>
+    <color name="MediumTurquoise">#48D1CC</color>
+    <color name="LightBlue">#97DCE7</color>
+    <color name="DarkSlateBlue">#483D8B</color>
+    <color name="SteelBlue">#4682B4</color>
+    <color name="RoyalBlue">#4169E1</color>
+    <color name="Turquoise">#40E0D0</color>
+    <color name="Teal">#008080</color>
+    <color name="DarkGreen">#006400</color>
+    <color name="MediumBlue">#0000CD</color>
+    <color name="DarkBlue">#00008B</color>
+    <color name="Black">#000000</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Grey">#C0C0C0</color>
+    <color name="ButtonText">#000000</color>
+    <color name="Transparent">#00676767</color>
+    <color name="SemiTransparent">#44676767</color>
+    <color name="DarkTransparent">#88676767</color>
+    <color name="Red">#FF0000</color>
+    <color name="Green">#00FF00</color>
+    <color name="Yellow">#ffff4e</color>
+    <color name="Blue">#0000FF</color>
+
+</resources>

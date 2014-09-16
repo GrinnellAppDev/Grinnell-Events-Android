@@ -9,12 +9,16 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -30,29 +33,31 @@ import com.parse.ParseQuery;
 import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
 
-public class EventsListActivity extends FragmentActivity implements
-		EventsListFragment.Callbacks {
+public class EventsListActivity extends FragmentActivity implements EventsListFragment.Callbacks {
 
 	String TAG = "EVENTS_LIST_ACTIVITY";
 
 	protected List<Event> mData = new ArrayList<Event>();
 	protected String mEventID;
 	protected Event mSelectedEvent;
+	EventDayAdapter mEventDayAdapter;
+
+	ViewPager mViewPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_events_list);
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
+		mViewPager.setAdapter(mEventDayAdapter);
 
-		Parse.initialize(getApplication(),
-				"gxqIXbjvBCr7oYCYzNT2GYidbYv3Jiy4NJSJxxN3",
-				"S0FQadLhLS5ine1wsDQ2YY3rnOKsAD2eEqNNwdY6");
+		mViewPager.setCurrentItem(0);
 
 		Calendar today = new GregorianCalendar();
 
 		/* Open the events for today by default */
-		filterEventsByDay(today.get(Calendar.DAY_OF_MONTH),
-				today.get(Calendar.MONTH), today.get(Calendar.YEAR));
+	//	filterEventsByDay(today.get(Calendar.DAY_OF_MONTH), today.get(Calendar.MONTH), today.get(Calendar.YEAR));
 	}
 
 	@Override
@@ -82,8 +87,7 @@ public class EventsListActivity extends FragmentActivity implements
 
 		FragmentManager fm = getSupportFragmentManager();
 		EventsDetailFragment eventDetails = new EventsDetailFragment();
-		fm.beginTransaction().replace(R.id.fragment_container, eventDetails)
-				.addToBackStack("EventList").commit();
+	//	fm.beginTransaction().replace(R.id.fragment_container, eventDetails).addToBackStack("EventList").commit();
 
 	}
 
@@ -137,8 +141,7 @@ public class EventsListActivity extends FragmentActivity implements
 			startDate = p_event.getDate("startTime");
 			endDate = p_event.getDate("endTime");
 			details = p_event.getString("detailDescription");
-			Event new_event = new Event(eventid, title, startDate, endDate,
-					location, details);
+			Event new_event = new Event(eventid, title, startDate, endDate, location, details);
 
 			EventContent.EventList.add(new_event);
 		}
@@ -180,8 +183,7 @@ public class EventsListActivity extends FragmentActivity implements
 		sortEventList();
 		FragmentManager fm = getSupportFragmentManager();
 		EventsListFragment eventList = new EventsListFragment();
-		fm.beginTransaction().replace(R.id.fragment_container, eventList)
-				.commit();
+//		fm.beginTransaction().replace(R.id.fragment_container, eventList).commit();
 	}
 
 	/*
@@ -263,9 +265,7 @@ public class EventsListActivity extends FragmentActivity implements
 			monthString = "Unknown Month";
 		}
 
-		String dateString = day_of_week + " " + monthString + " "
-				+ selectedDate.get(Calendar.DAY_OF_MONTH) + " "
-				+ selectedDate.get(Calendar.YEAR);
+		String dateString = day_of_week + " " + monthString + " " + selectedDate.get(Calendar.DAY_OF_MONTH) + " " + selectedDate.get(Calendar.YEAR);
 
 		Log.i(TAG, dateString);
 
@@ -283,6 +283,38 @@ public class EventsListActivity extends FragmentActivity implements
 		intent.putExtra("eventLocation", mSelectedEvent.getLocation());
 		intent.putExtra("description", mSelectedEvent.getDetails());
 		startActivity(intent);
+	}
+
+	public class EventDayAdapter extends FragmentStatePagerAdapter {
+
+		public EventDayAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			switch (position) {
+			default:
+				return new EventsListFragment();
+			}
+		}
+
+		@Override
+		public int getCount() {
+			return 9;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			Locale l = Locale.getDefault();
+			switch (position) {
+			case 0:
+				return "Today";
+			default:
+				return getString(R.string.unavailable).toUpperCase(l);
+			}
+		}
+
 	}
 
 }
