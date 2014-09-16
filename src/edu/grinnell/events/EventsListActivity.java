@@ -13,14 +13,14 @@ import java.util.ListIterator;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -30,7 +30,7 @@ import com.parse.ParseQuery;
 import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
 
-public class EventsListActivity extends SherlockFragmentActivity implements
+public class EventsListActivity extends FragmentActivity implements
 		EventsListFragment.Callbacks {
 
 	String TAG = "EVENTS_LIST_ACTIVITY";
@@ -57,7 +57,7 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.activity_events_list, menu);
 		return super.onCreateOptionsMenu(menu);
 	}

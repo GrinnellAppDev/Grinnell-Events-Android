@@ -3,16 +3,14 @@ package edu.grinnell.events;
 import java.util.List;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockFragment;
-
 import edu.grinnell.events.data.EventContent.Event;
 
-public class EventsDetailFragment extends SherlockFragment {
+public class EventsDetailFragment extends Fragment {
 
 	EventsListActivity mActivity;
 	public Event mItem;
