@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.example.events_android.R;
 
 import edu.grinnell.events.data.EventContent.Event;
 

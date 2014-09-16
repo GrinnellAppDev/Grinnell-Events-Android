@@ -21,7 +21,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.example.events_android.R;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -261,7 +260,7 @@ public class EventsListActivity extends SherlockFragmentActivity implements
 			monthString = "Dec";
 			break;
 		default:
-			day_of_week = "Unknown Month";
+			monthString = "Unknown Month";
 		}
 
 		String dateString = day_of_week + " " + monthString + " "

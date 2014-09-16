@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.example.events_android.R;
 
 import edu.grinnell.events.data.EventContent.Event;
 
