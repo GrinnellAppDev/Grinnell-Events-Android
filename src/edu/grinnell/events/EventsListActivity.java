@@ -1,5 +1,6 @@
 package edu.grinnell.events;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,7 +36,7 @@ import edu.grinnell.events.data.EventContent.Event;
 public class EventsListActivity extends FragmentActivity implements EventsListFragment.Callbacks {
 
 	String TAG = "EVENTS_LIST_ACTIVITY";
-	
+
 	//Date at which the pages start
 	final Date baseDate = new GregorianCalendar(2014, 0, 0).getTime();
 
@@ -58,14 +59,13 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 		mViewPager.setCurrentItem(0);
 
-
 		/* Open the events for today by default */
 		Date today = new GregorianCalendar().getTime();
-		
+
 		int daysPastBase = daysBetween(today, baseDate);
-		
+
 		mViewPager.setCurrentItem(daysPastBase);
-		
+
 		retrieveDateFromParse(today);
 	}
 
@@ -112,7 +112,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 	/* Query the events for a specific day from the Parse database */
 	public void retrieveDateFromParse(Date selectedDate) {
-		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event2");		
+		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event2");
 		event_query.whereEqualTo("startTime", selectedDate);
 		event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
@@ -153,7 +153,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 			EventContent.EventList.add(new_event);
 		}
 		mData = EventContent.EventList;
-	//	populateList(mData);
+		//	populateList(mData);
 	}
 
 	/* sort the event list so that later events come after earlier events */
@@ -173,24 +173,24 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 		DialogFragment datePicker = new DialogFragment();
 		datePicker.show(getSupportFragmentManager(), "datePicker");
 	}
-	
+
 	public int daysBetween(Date date1, Date date2) {
 		Long daysBetween;
-		
+
 		// 86400000 milliseconds in in a day
-		daysBetween = (date1.getTime() - date2.getTime()) / 86400000;		
-		
+		daysBetween = (date1.getTime() - date2.getTime()) / 86400000;
+
 		return (int) Math.floor(daysBetween);
 	}
-	
+
 	public Date positionToDate(int position) {
 		//calculate how many milliseconds since first page, each page is one day
-		
+
 		long numMillis = (long) position * 86400000;
-				
+
 		return new Date(baseDate.getTime() + numMillis);
 	}
-	
+
 	/* Add the event to a calendar selected by the user */
 	public void addEventToCalendar(View view) {
 		Intent intent = new Intent(Intent.ACTION_EDIT);
@@ -212,28 +212,30 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 		@Override
 		public Fragment getItem(int position) {
-			
+
 			Date thisDay = positionToDate(position);
 			//retrieveDateFromParse(today);
 
 			return new EventsListFragment();
-			}
+		}
 
 		@Override
 		public int getCount() {
-			return 10000;
+			return 30000;
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return positionToDate(position).toGMTString();
+			Date thisDay = positionToDate(position);
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("EEE MM/dd");
+			
+			return ("" + formatter.format(thisDay));
 		}
 
 	}
 
 }
-
-
 
 /*
 public void filterEventsByDay(int day, int month, int year) {
