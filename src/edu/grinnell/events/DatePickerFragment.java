@@ -1,6 +1,8 @@
 package edu.grinnell.events;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -31,7 +33,9 @@ public class DatePickerFragment extends DialogFragment implements
 		mActivity.mMonth = month;
 		mActivity.mYear = year;
 		*/
-		mActivity.filterEventsByDay(day, month, year);
+		
+		Date thisDate = new GregorianCalendar(year, month, day).getTime();
+		mActivity.retrieveDateFromParse(thisDate);
 	}
 
 }

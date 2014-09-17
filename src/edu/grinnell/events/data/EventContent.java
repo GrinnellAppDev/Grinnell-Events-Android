@@ -9,7 +9,7 @@ import java.util.List;
 public class EventContent {
 
 	public static List<Event> EventList = new ArrayList<Event>();
-	
+
 	public static class Event {
 		protected String id;
 		protected String title;
@@ -26,28 +26,28 @@ public class EventContent {
 			this.location = location;
 			this.details = details;
 		}
-		
-		public String getID(){
+
+		public String getID() {
 			return id;
 		}
-		
-		public String getTitle(){
+
+		public String getTitle() {
 			return title;
 		}
-		
-		public Date getStartTime(){
+
+		public Date getStartTime() {
 			return startTime;
 		}
-		
-		public Date getEndTime(){
+
+		public Date getEndTime() {
 			return endTime;
 		}
-		
-		public String getLocation(){
+
+		public String getLocation() {
 			return location;
 		}
-		
-		public String getDetails(){
+
+		public String getDetails() {
 			return details;
 		}
 	}

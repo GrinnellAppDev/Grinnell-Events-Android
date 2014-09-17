@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 
-import android.app.DialogFragment;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -54,10 +55,11 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 		mViewPager.setCurrentItem(0);
 
-		Calendar today = new GregorianCalendar();
+		Date today = new GregorianCalendar().getTime();
 
 		/* Open the events for today by default */
 	//	filterEventsByDay(today.get(Calendar.DAY_OF_MONTH), today.get(Calendar.MONTH), today.get(Calendar.YEAR));
+		retrieveDateFromParse(today);
 	}
 
 	@Override
@@ -87,7 +89,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 		FragmentManager fm = getSupportFragmentManager();
 		EventsDetailFragment eventDetails = new EventsDetailFragment();
-	//	fm.beginTransaction().replace(R.id.fragment_container, eventDetails).addToBackStack("EventList").commit();
+		//	fm.beginTransaction().replace(R.id.fragment_container, eventDetails).addToBackStack("EventList").commit();
 
 	}
 
@@ -103,10 +105,13 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 	}
 
 	/* Query the events for a specific day from the Parse database */
-	public void retrieveDateFromParse(String selectedDate) {
+	public void retrieveDateFromParse(Date selectedDate) {
 
 		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event");
-		event_query.whereEqualTo("date", selectedDate);
+		
+		//event_query.whereEqualTo("date", selectedDate);
+		
+		event_query.whereEqualTo("startTime", selectedDate);
 		event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
 		event_query.findInBackground(new FindCallback<ParseObject>() {
@@ -163,16 +168,16 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 	/* The dialog to allow users to select a specific date */
 	public void showDatePickerDialog() {
-		DialogFragment newFragment = new DatePickerFragment();
-		newFragment.show(getFragmentManager(), "datePicker");
-
+		DialogFragment datePicker = new DialogFragment();
+		datePicker.show(getSupportFragmentManager(), "datePicker");
 	}
 
-	/* Called by the date picker to query the events for a single day */
+	/*
 	public void filterEventsByDay(int day, int month, int year) {
 		String dateString = formDateString(day, month, year);
 		retrieveDateFromParse(dateString);
 	}
+	*/
 
 	/*
 	 * This method will clear the previous event list fragment and insert a new
@@ -183,7 +188,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 		sortEventList();
 		FragmentManager fm = getSupportFragmentManager();
 		EventsListFragment eventList = new EventsListFragment();
-//		fm.beginTransaction().replace(R.id.fragment_container, eventList).commit();
+		//		fm.beginTransaction().replace(R.id.fragment_container, eventList).commit();
 	}
 
 	/*
@@ -301,18 +306,21 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 		@Override
 		public int getCount() {
-			return 9;
+			return 10000;
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
 			Locale l = Locale.getDefault();
+			return "" + position;
+			/*
 			switch (position) {
 			case 0:
 				return "Today";
 			default:
 				return getString(R.string.unavailable).toUpperCase(l);
 			}
+			*/
 		}
 
 	}
