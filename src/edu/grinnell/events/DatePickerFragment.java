@@ -28,11 +28,6 @@ public class DatePickerFragment extends DialogFragment implements
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		//set the events date to the new settings
 		EventsListActivity mActivity = (EventsListActivity) getActivity();
-		/*
-		mActivity.mDay = day;
-		mActivity.mMonth = month;
-		mActivity.mYear = year;
-		*/
 		
 		Date thisDate = new GregorianCalendar(year, month, day).getTime();
 		mActivity.retrieveDateFromParse(thisDate);

@@ -20,7 +20,6 @@ public class EventsListFragment extends ListFragment {
 	public List<Event> mData;
 	public Event mEvent = null;
 
-	
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
 	private Callbacks mCallbacks = sDummyCallbacks;

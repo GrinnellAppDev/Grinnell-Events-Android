@@ -11,6 +11,7 @@ import android.widget.TextView;
 import edu.grinnell.events.data.EventContent.Event;
 
 public class EventsDetailFragment extends Fragment {
+	static final String EVENT_ID = "EVENT_ID";
 
 	EventsListActivity mActivity;
 	public Event mItem;
@@ -24,15 +25,21 @@ public class EventsDetailFragment extends Fragment {
 	public EventsDetailFragment() {
 	}
 
+	public static EventsDetailFragment newInstance(String id) {
+		EventsDetailFragment fragment = new EventsDetailFragment();
+		Bundle args = new Bundle();
+		args.putString(EVENT_ID, id);
+		fragment.setArguments(args);
+		return fragment;
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 			mActivity = (EventsListActivity) getActivity();
 			mData = mActivity.mData;
 			mID = mActivity.mEventID;
 			mItem = mActivity.mSelectedEvent;
-
 	}
 
 	@Override
