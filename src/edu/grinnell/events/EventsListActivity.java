@@ -6,10 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,18 +17,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
-import edu.grinnell.events.data.EventContent;
 import edu.grinnell.events.data.EventContent.Event;
 
 public class EventsListActivity extends FragmentActivity implements EventsListFragment.Callbacks {
@@ -41,7 +31,6 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 	final Date baseDate = new GregorianCalendar(2014, 0, 0).getTime();
 
 	protected List<Event> mData = new ArrayList<Event>();
-	protected String mEventID;
 	protected Event mSelectedEvent;
 	EventDayAdapter mEventDayAdapter;
 
@@ -66,7 +55,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 		mViewPager.setCurrentItem(daysPastBase);
 
-		retrieveDateFromParse(today);
+	//	retrieveDateFromParse(today);
 	}
 
 	@Override
@@ -90,12 +79,8 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 	/* Open the detail page for an event */
 	@Override
 	public void onItemSelected(String id) {
-
-		mEventID = id;
-		mSelectedEvent = findEventByID(id);
-
 		FragmentManager fm = getSupportFragmentManager();
-		EventsDetailFragment eventDetails = new EventsDetailFragment();
+		EventsDetailFragment eventDetails = EventsDetailFragment.newInstance(id);
 		fm.beginTransaction().replace(R.id.container, eventDetails).addToBackStack("EventList").commit();
 	}
 
@@ -110,52 +95,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 		return null;
 	}
 
-	/* Query the events for a specific day from the Parse database */
-	public void retrieveDateFromParse(Date selectedDate) {
-		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event2");
-		event_query.whereEqualTo("startTime", selectedDate);
-		event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
-
-		event_query.findInBackground(new FindCallback<ParseObject>() {
-			public void done(List<ParseObject> eventList, ParseException e) {
-				if (e == null) {
-					Log.d(TAG, "Retrieved " + eventList.size() + " events");
-					saveToList(eventList);
-				} else {
-					Log.d(TAG, "Error: " + e.getMessage());
-				}
-			}
-		});
-	}
-
-	/* Save the parse objects to a list of event objects */
-	protected void saveToList(List<ParseObject> p_event_list) {
-		String eventid;
-		String title;
-		String location;
-		String details;
-		Date startDate;
-		Date endDate;
-
-		EventContent.EventList.clear();
-
-		Iterator<ParseObject> event_saver = p_event_list.iterator();
-		while (event_saver.hasNext()) {
-			ParseObject p_event = event_saver.next();
-			eventid = p_event.getString("eventid");
-			title = p_event.getString("title");
-			location = p_event.getString("location");
-			startDate = p_event.getDate("startTime");
-			endDate = p_event.getDate("endTime");
-			details = p_event.getString("detailDescription");
-			Event new_event = new Event(eventid, title, startDate, endDate, location, details);
-
-			EventContent.EventList.add(new_event);
-		}
-		mData = EventContent.EventList;
-		//	populateList(mData);
-	}
-
+	
 	/* sort the event list so that later events come after earlier events */
 	public void sortEventList() {
 		Collections.sort(mData, new EventComparator());
@@ -214,9 +154,8 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 		public Fragment getItem(int position) {
 
 			Date thisDay = positionToDate(position);
-			//retrieveDateFromParse(today);
 
-			return new EventsListFragment();
+			return EventsListFragment.newInstance(thisDay.getTime());
 		}
 
 		@Override

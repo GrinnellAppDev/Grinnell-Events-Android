@@ -30,7 +30,7 @@ public class DatePickerFragment extends DialogFragment implements
 		EventsListActivity mActivity = (EventsListActivity) getActivity();
 		
 		Date thisDate = new GregorianCalendar(year, month, day).getTime();
-		mActivity.retrieveDateFromParse(thisDate);
+	//	mActivity.retrieveDateFromParse(thisDate);
 	}
 
 }

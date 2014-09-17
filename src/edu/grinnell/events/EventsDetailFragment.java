@@ -15,7 +15,6 @@ public class EventsDetailFragment extends Fragment {
 
 	EventsListActivity mActivity;
 	public Event mItem;
-	public List<Event> mData;
 	public String mID;
 
 	/**
@@ -37,8 +36,7 @@ public class EventsDetailFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 			mActivity = (EventsListActivity) getActivity();
-			mData = mActivity.mData;
-			mID = mActivity.mEventID;
+			mID = getArguments().getString(EVENT_ID);
 			mItem = mActivity.mSelectedEvent;
 	}
 
