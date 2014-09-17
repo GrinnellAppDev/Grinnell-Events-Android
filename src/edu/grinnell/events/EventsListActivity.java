@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -56,7 +55,12 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 		mViewPager.setCurrentItem(0);
 
 		Date today = new GregorianCalendar().getTime();
-
+		
+		long timeMilli = today.getTime();
+		
+		int daysBetweenTest = daysBetween(today, new GregorianCalendar(2014, 8, 19).getTime());
+		Log.d(TAG, "Days Between:" + daysBetweenTest);
+		
 		/* Open the events for today by default */
 	//	filterEventsByDay(today.get(Calendar.DAY_OF_MONTH), today.get(Calendar.MONTH), today.get(Calendar.YEAR));
 		retrieveDateFromParse(today);
@@ -170,6 +174,15 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 	public void showDatePickerDialog() {
 		DialogFragment datePicker = new DialogFragment();
 		datePicker.show(getSupportFragmentManager(), "datePicker");
+	}
+	
+	public int daysBetween(Date date1, Date date2) {
+		Long daysBetween;
+		
+		// 86400000 milliseconds in in a day
+		daysBetween = (date1.getTime() - date2.getTime()) / 86400000;		
+		
+		return (int) Math.floor(daysBetween);
 	}
 
 	/*
