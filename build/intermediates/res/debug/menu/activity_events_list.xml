@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_pick_date"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_pick_date"/>
+
+</menu><!-- From: file:/Users/patrick/Development/workspace/Grinnell-Events-Android/res/menu/activity_events_list.xml -->

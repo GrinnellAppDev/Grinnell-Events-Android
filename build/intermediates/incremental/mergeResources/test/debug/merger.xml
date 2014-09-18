@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="main" >
+        <source path="/Users/patrick/Development/workspace/Grinnell-Events-Android/src/androidTest/res" />
+        <source path="/Users/patrick/Development/workspace/Grinnell-Events-Android/build/generated/res/rs/test/debug" />
+        <source path="/Users/patrick/Development/workspace/Grinnell-Events-Android/build/generated/res/generated/test/debug" />
+    </dataSet>
+
+</merger>
