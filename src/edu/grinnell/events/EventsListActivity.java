@@ -11,7 +11,6 @@ import java.util.ListIterator;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -46,16 +45,12 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setAdapter(mEventDayAdapter);
 
-		mViewPager.setCurrentItem(0);
-
 		/* Open the events for today by default */
 		Date today = new GregorianCalendar().getTime();
 
 		int daysPastBase = daysBetween(today, baseDate);
 
 		mViewPager.setCurrentItem(daysPastBase);
-
-	//	retrieveDateFromParse(today);
 	}
 
 	@Override
@@ -110,8 +105,8 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 	/* The dialog to allow users to select a specific date */
 	public void showDatePickerDialog() {
-		DialogFragment datePicker = new DialogFragment();
-		datePicker.show(getSupportFragmentManager(), "datePicker");
+		DatePickerFragment datePickerFragment = new DatePickerFragment();
+		datePickerFragment.show(getSupportFragmentManager(), "datePicker");
 	}
 
 	public int daysBetween(Date date1, Date date2) {
@@ -173,114 +168,4 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 		}
 
 	}
-
 }
-
-/*
-public void filterEventsByDay(int day, int month, int year) {
-	String dateString = formDateString(day, month, year);
-	retrieveDateFromParse(dateString);
-}
-*/
-
-/*
- * This method will clear the previous event list fragment and insert a new
- * list cooresponding with the new event list
- */
-/*
-public void populateList(List<Event> data) {
-
-	sortEventList();
-	FragmentManager fm = getSupportFragmentManager();
-	EventsListFragment eventList = new EventsListFragment();
-	fm.beginTransaction().replace(R.id.container, eventList).commit();
-}
-*/
-
-/*
- * Form at date string formated to be the same as how the event data is
- * stored in parse. TODO once we have the real event data we should store
- * the date as a date type instead of a string so that this conversion is no
- * longer nessesary.
- */
-/*
-public String formDateString(int day, int month, int year) {
-
-	Calendar selectedDate = new GregorianCalendar(year, month, day);
-
-	String day_of_week;
-	switch (selectedDate.get(Calendar.DAY_OF_WEEK)) {
-	case Calendar.MONDAY:
-		day_of_week = "Mon";
-		break;
-	case Calendar.TUESDAY:
-		day_of_week = "Tue";
-		break;
-	case Calendar.WEDNESDAY:
-		day_of_week = "Wed";
-		break;
-	case Calendar.THURSDAY:
-		day_of_week = "Thu";
-		break;
-	case Calendar.FRIDAY:
-		day_of_week = "Fri";
-		break;
-	case Calendar.SATURDAY:
-		day_of_week = "Sat";
-		break;
-	case Calendar.SUNDAY:
-		day_of_week = "Sun";
-		break;
-	default:
-		day_of_week = "Unknown Day";
-	}
-
-	String monthString = "Unknown Month";
-	switch (selectedDate.get(Calendar.MONTH)) {
-	case Calendar.JANUARY:
-		monthString = "Jan";
-		break;
-	case Calendar.FEBRUARY:
-		monthString = "Feb";
-		break;
-	case Calendar.MARCH:
-		monthString = "Mar";
-		break;
-	case Calendar.APRIL:
-		monthString = "Apr";
-		break;
-	case Calendar.MAY:
-		monthString = "May";
-		break;
-	case Calendar.JUNE:
-		monthString = "Jun";
-		break;
-	case Calendar.JULY:
-		monthString = "Jul";
-		break;
-	case Calendar.AUGUST:
-		monthString = "Aug";
-		break;
-	case Calendar.SEPTEMBER:
-		monthString = "Sep";
-		break;
-	case Calendar.OCTOBER:
-		monthString = "Oct";
-		break;
-	case Calendar.NOVEMBER:
-		monthString = "Nov";
-		break;
-	case Calendar.DECEMBER:
-		monthString = "Dec";
-		break;
-	default:
-		monthString = "Unknown Month";
-	}
-
-	String dateString = day_of_week + " " + monthString + " " + selectedDate.get(Calendar.DAY_OF_MONTH) + " " + selectedDate.get(Calendar.YEAR);
-
-	Log.i(TAG, dateString);
-
-	return dateString;
-}
-*/

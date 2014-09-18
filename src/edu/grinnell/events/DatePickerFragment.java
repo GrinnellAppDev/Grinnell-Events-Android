@@ -6,12 +6,12 @@ import java.util.GregorianCalendar;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
-public class DatePickerFragment extends DialogFragment implements
-		DatePickerDialog.OnDateSetListener {
+
+public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -28,9 +28,9 @@ public class DatePickerFragment extends DialogFragment implements
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		//set the events date to the new settings
 		EventsListActivity mActivity = (EventsListActivity) getActivity();
-		
-		Date thisDate = new GregorianCalendar(year, month, day).getTime();
-	//	mActivity.retrieveDateFromParse(thisDate);
+		Calendar thisDate = new GregorianCalendar(year, month, day);
+
+		mActivity.mViewPager.setCurrentItem(mActivity.daysBetween(thisDate.getTime(), mActivity.baseDate));
 	}
 
 }
