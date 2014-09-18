@@ -1,5 +1,6 @@
 package edu.grinnell.events;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import android.view.LayoutInflater;
@@ -46,7 +47,10 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 
 			holder.title.setText(a.getTitle());
 			holder.title.setPadding(3, 3, 3, 3);
-			holder.date.setText(a.getStartTime().toString());
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("hh:mm aa");
+
+			holder.date.setText(formatter.format(a.getStartTime()));
 		}
 
 		return convertView;

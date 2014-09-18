@@ -170,8 +170,8 @@ public class EventsListFragment extends ListFragment {
 	/* Query the events for a specific day from the Parse database */
 	public void retrieveDateFromParse(Date selectedDate) {
 		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event2");
-		event_query.whereGreaterThan("startTime", selectedDate);
-		event_query.whereLessThan("startTime", new Date(selectedDate.getTime() + 86400000));
+		event_query.whereGreaterThanOrEqualTo("startTime", selectedDate);
+		event_query.whereLessThanOrEqualTo("startTime", new Date(selectedDate.getTime() + 86400000));
 
 		event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 

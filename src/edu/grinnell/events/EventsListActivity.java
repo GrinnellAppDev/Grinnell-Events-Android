@@ -28,6 +28,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 	//Date at which the pages start
 	final Date baseDate = new GregorianCalendar(2014, 0, 0).getTime();
+	boolean detailShowing = false;
 
 	protected List<Event> mData = new ArrayList<Event>();
 	protected Event mSelectedEvent;
@@ -71,36 +72,22 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 		}
 	}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		if (detailShowing) {
+			mViewPager.setVisibility(View.VISIBLE);
+		}
+	}
+
 	/* Open the detail page for an event */
 	@Override
 	public void onItemSelected(String id) {
 		FragmentManager fm = getSupportFragmentManager();
 		EventsDetailFragment eventDetails = EventsDetailFragment.newInstance(id);
-		fm.beginTransaction().replace(R.id.container, eventDetails).addToBackStack("EventList").commit();
-	}
-
-	// Return the event cooresponding with a given ID
-	public Event findEventByID(String ID) {
-		ListIterator<Event> iter = mData.listIterator();
-		while (iter.hasNext()) {
-			if (ID.compareTo(iter.next().getID()) == 0) {
-				return iter.previous();
-			}
-		}
-		return null;
-	}
-
-	
-	/* sort the event list so that later events come after earlier events */
-	public void sortEventList() {
-		Collections.sort(mData, new EventComparator());
-	}
-
-	public class EventComparator implements Comparator<Event> {
-		@Override
-		public int compare(Event e1, Event e2) {
-			return e1.getStartTime().compareTo(e2.getStartTime());
-		}
+		mViewPager.setVisibility(View.INVISIBLE);
+		detailShowing = true;
+		fm.beginTransaction().replace(R.id.container, eventDetails).addToBackStack(null).commit();
 	}
 
 	/* The dialog to allow users to select a specific date */
@@ -161,9 +148,9 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 		@Override
 		public CharSequence getPageTitle(int position) {
 			Date thisDay = positionToDate(position);
-			
+
 			SimpleDateFormat formatter = new SimpleDateFormat("EEE MM/dd");
-			
+
 			return ("" + formatter.format(thisDay));
 		}
 
