@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Events-Android</string>
+    <string name="app_name">Grinnell Events</string>
     <string name="title_events_detail">Events Detail</string>
     <string name="title_activity_event_parser">EventParser</string>
     <string name="action_settings">Settings</string>

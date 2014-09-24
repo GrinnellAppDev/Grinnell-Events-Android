@@ -16,9 +16,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:background="@color/White"
+            android:textAppearance="@style/PagerTabStripText"
             android:paddingBottom="6dp"
-            android:paddingTop="6dp"
-            android:textColor="@color/LightRed" />
+            android:paddingTop="6dp" />
     </android.support.v4.view.ViewPager>
 
 </FrameLayout>
