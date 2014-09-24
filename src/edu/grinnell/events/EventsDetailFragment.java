@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.parse.GetCallback;
@@ -50,7 +51,6 @@ public class EventsDetailFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 			mActivity = (EventsListActivity) getActivity();
 			mID = getArguments().getString(EVENT_ID);
-			retrieveEventFromParse(mID);
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -62,6 +62,7 @@ public class EventsDetailFragment extends Fragment {
 			Bundle savedInstanceState) {
 		mView = inflater.inflate(R.layout.fragment_events_detail,
 				container, false);
+        retrieveEventFromParse(mID);
 
 		return mView;
 	}
@@ -100,6 +101,9 @@ public class EventsDetailFragment extends Fragment {
 		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event2");
 		event_query.whereEqualTo("eventid", id);
 
+        final ScrollView scrollView = ((ScrollView) mView.findViewById(R.id.event_scroll_view));
+        scrollView.setVisibility(View.GONE);
+
 		event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
 		event_query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -115,6 +119,7 @@ public class EventsDetailFragment extends Fragment {
 					
 					mItem = thisEvent;
 					showDetails();
+                    scrollView.setVisibility(View.VISIBLE);
 				} else {
 					Log.d(TAG, "Error: " + e.getMessage());
 				}
