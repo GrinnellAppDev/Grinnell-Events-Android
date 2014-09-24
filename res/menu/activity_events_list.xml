@@ -4,6 +4,7 @@
     <item
         android:id="@+id/action_pick_date"
         android:showAsAction="ifRoom"
-        android:title="@string/action_pick_date"/>
+        android:title="@string/action_pick_date"
+        android:icon="@drawable/"/>
 
 </menu>
