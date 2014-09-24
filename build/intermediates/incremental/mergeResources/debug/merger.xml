@@ -215,6 +215,56 @@
                     <!-- API 14 theme customizations can go here. -->
                 </style>
             </file>
+            <file
+                name="no_anim"
+                path="/Users/patrick/Development/workspace/Grinnell-Events-Android/res/anim/no_anim.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="top_slide_up"
+                path="/Users/patrick/Development/workspace/Grinnell-Events-Android/res/anim/top_slide_up.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="right_slide_in"
+                path="/Users/patrick/Development/workspace/Grinnell-Events-Android/res/anim/right_slide_in.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="bottom_slide_up"
+                path="/Users/patrick/Development/workspace/Grinnell-Events-Android/res/anim/bottom_slide_up.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="right_slide_out"
+                path="/Users/patrick/Development/workspace/Grinnell-Events-Android/res/anim/right_slide_out.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="left_slide_out"
+                path="/Users/patrick/Development/workspace/Grinnell-Events-Android/res/anim/left_slide_out.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="left_slide_in"
+                path="/Users/patrick/Development/workspace/Grinnell-Events-Android/res/anim/left_slide_in.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="top_slide_down"
+                path="/Users/patrick/Development/workspace/Grinnell-Events-Android/res/anim/top_slide_down.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="bottom_slide_down"
+                path="/Users/patrick/Development/workspace/Grinnell-Events-Android/res/anim/bottom_slide_down.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="top_slide_down_slow"
+                path="/Users/patrick/Development/workspace/Grinnell-Events-Android/res/anim/top_slide_down_slow.xml"
+                qualifiers=""
+                type="anim" />
         </source>
         <source path="/Users/patrick/Development/workspace/Grinnell-Events-Android/build/generated/res/rs/debug" />
         <source path="/Users/patrick/Development/workspace/Grinnell-Events-Android/build/generated/res/generated/debug" />

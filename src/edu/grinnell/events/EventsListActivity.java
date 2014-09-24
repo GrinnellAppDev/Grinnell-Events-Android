@@ -82,7 +82,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
     public void onBackPressed() {
         super.onBackPressed();
         if (detailShowing) {
-            mViewPager.setVisibility(View.VISIBLE);
+        //    mViewPager.setVisibility(View.VISIBLE);
             detailShowing = false;
             getSupportFragmentManager().popBackStack();
         }
@@ -93,9 +93,10 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
     public void onItemSelected(String id) {
         FragmentManager fm = getSupportFragmentManager();
         EventsDetailFragment eventDetails = EventsDetailFragment.newInstance(id);
-        mViewPager.setVisibility(View.INVISIBLE);
+      //  mViewPager.setVisibility(View.INVISIBLE);
         detailShowing = true;
-        fm.beginTransaction().replace(R.id.container, eventDetails).addToBackStack(null).commit();
+        fm.beginTransaction().setCustomAnimations(R.anim.left_slide_in, R.anim.left_slide_out, R.anim.right_slide_in, R.anim.right_slide_out)
+                .replace(R.id.container, eventDetails).addToBackStack(null).commit();
     }
 
     /* The dialog to allow users to select a specific date */
