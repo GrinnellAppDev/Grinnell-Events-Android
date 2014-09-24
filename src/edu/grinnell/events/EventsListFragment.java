@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -31,6 +33,7 @@ public class EventsListFragment extends ListFragment {
 	public EventsListActivity mActivity;
 	public List<Event> mData;
 	public Event mEvent = null;
+    View mView;
 
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
@@ -86,9 +89,8 @@ public class EventsListFragment extends ListFragment {
 
 		mData = new ArrayList<Event>();
 		mActivity = (EventsListActivity) getActivity();
-		long thisDay = getArguments().getLong(DATE_VALUE);
 		
-		retrieveDateFromParse(new Date(thisDay));
+
 	}
 
 	@Override
@@ -163,8 +165,13 @@ public class EventsListFragment extends ListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_events_list,
+                container, false);
 
-		return inflater.inflate(R.layout.fragment_events_list, container, false);
+        long thisDay = getArguments().getLong(DATE_VALUE);
+        retrieveDateFromParse(new Date(thisDay));
+
+		return mView;
 	}
 
 	/* Query the events for a specific day from the Parse database */
@@ -173,13 +180,21 @@ public class EventsListFragment extends ListFragment {
 		event_query.whereGreaterThanOrEqualTo("startTime", selectedDate);
 		event_query.whereLessThanOrEqualTo("startTime", new Date(selectedDate.getTime() + 86400000));
 
-		event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+
+        final LinearLayout linearLayout = (LinearLayout) mView.findViewById(R.id.event_list_layout);
+        linearLayout.setVisibility(View.GONE);
+
+        final ProgressBar progressBar = (ProgressBar) mView.findViewById(R.id.list_progress_bar);
+
+        event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
 		event_query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> eventList, ParseException e) {
 				if (e == null) {
 					Log.d(TAG, "Retrieved " + eventList.size() + " events");
 					parseToList(eventList);
+                    linearLayout.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
 				} else {
 					Log.d(TAG, "Error: " + e.getMessage());
 				}
