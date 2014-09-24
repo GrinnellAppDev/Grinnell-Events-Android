@@ -77,6 +77,8 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 		super.onBackPressed();
 		if (detailShowing) {
 			mViewPager.setVisibility(View.VISIBLE);
+            detailShowing = false;
+            getSupportFragmentManager().popBackStack();
 		}
 	}
 

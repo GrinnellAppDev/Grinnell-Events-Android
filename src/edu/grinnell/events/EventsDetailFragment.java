@@ -2,10 +2,12 @@ package edu.grinnell.events;
 
 import java.util.Date;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -47,7 +49,27 @@ public class EventsDetailFragment extends Fragment {
 			mActivity = (EventsListActivity) getActivity();
 			mID = getArguments().getString(EVENT_ID);
 			retrieveEventFromParse(mID);
+
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 	}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                mActivity.onBackPressed();
+                /*
+                Intent intent = new Intent(this, EventsApp.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                */
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,12 +90,12 @@ public class EventsDetailFragment extends Fragment {
 					.setText(mItem.getLocation());
 			((TextView) mView.findViewById(R.id.events_date)).setText(mItem
 					.getStartTime().toString());
-			((TextView) mView.findViewById(R.id.events_id)).setText(mItem
-					.getID());
 
 		}
 	}
-	
+
+
+
 	/* Query the events for a specific day from the Parse database */
 	public void retrieveEventFromParse(String id) {
 		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event2");
