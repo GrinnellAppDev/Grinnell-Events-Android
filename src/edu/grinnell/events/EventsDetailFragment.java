@@ -71,10 +71,16 @@ public class EventsDetailFragment extends Fragment {
         if (mItem != null) {
             ((TextView) mView.findViewById(R.id.events_title)).setText(mItem
                     .getTitle());
-            ((TextView) mView.findViewById(R.id.events_detail))
-                    .setText(mItem.getDetails());
+
+            String details = mItem.getDetails();
+            if (details != null && !details.isEmpty()) {
+                ((TextView) mView.findViewById(R.id.events_detail))
+                        .setText(details);
+            }
+
             ((TextView) mView.findViewById(R.id.events_location))
                     .setText(mItem.getLocation());
+
             mView.findViewById(R.id.calendar_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
