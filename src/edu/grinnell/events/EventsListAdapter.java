@@ -27,6 +27,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 	private class ViewHolder {
 		TextView title;
 		TextView date;
+        TextView location;
 	}
 
 	@Override
@@ -39,6 +40,8 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 		holder.title = (TextView) convertView.findViewById(R.id.titleText);
 		holder.date = (TextView) convertView
 				.findViewById(R.id.dateText);
+        holder.location = (TextView) convertView
+                .findViewById(R.id.locationText);
 		convertView.setTag(holder);
 
 		final Event a = mData.get(position);
@@ -48,9 +51,12 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 			holder.title.setText(a.getTitle());
 			holder.title.setPadding(3, 3, 3, 3);
 			
-			SimpleDateFormat formatter = new SimpleDateFormat("hh:mm aa");
+			SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm aa");
 
-			holder.date.setText(formatter.format(a.getStartTime()));
+			holder.date.setText(timeFormatter.format(a.getStartTime()) + " - " +
+                    timeFormatter.format(a.getEndTime()));
+
+            holder.location.setText(a.getLocation());
 		}
 
 		return convertView;

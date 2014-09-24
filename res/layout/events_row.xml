@@ -5,14 +5,16 @@
     android:orientation="vertical"
     android:paddingBottom="10dp"
     android:paddingLeft="15dp"
-    android:paddingTop="5dp" >
+    android:paddingTop="5dp">
 
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/Black"
         android:gravity="center_vertical"
+        android:textSize="@dimen/largeText"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -20,6 +22,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/mediumText"
+        android:paddingLeft="5dp"
+        android:textColor="@color/Black"
+        android:paddingTop="7dp" />
+
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/mediumText"
+        android:paddingLeft="5dp"
+        android:textColor="@color/Black"
         android:paddingTop="7dp" />
 
 </LinearLayout>
