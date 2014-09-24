@@ -2,12 +2,17 @@ package edu.grinnell.events;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -64,9 +69,22 @@ public class EventsDetailFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_events_detail,
                 container, false);
         retrieveEventFromParse(mID);
-
+        changeIconColor();
         return mView;
     }
+
+
+    public void changeIconColor() {
+        Drawable timeIcon = getResources().getDrawable(R.drawable.ic_action_timeicon);
+        Drawable locationIcon = getResources().getDrawable(R.drawable.ic_action_locationicon);
+        int red = getResources().getColor(R.color.Red);
+        ColorFilter filter = new LightingColorFilter(red, red);
+        timeIcon.setColorFilter(filter);
+        locationIcon.setColorFilter(filter);
+        ((ImageView) mView.findViewById(R.id.timeicon)).setImageDrawable(timeIcon);
+        ((ImageView) mView.findViewById(R.id.locationicon)).setImageDrawable(locationIcon);
+    }
+
 
     public void showDetails() {
         if (mItem != null) {
@@ -101,10 +119,6 @@ public class EventsDetailFragment extends Fragment {
 
             ((TextView) mView.findViewById(R.id.events_date)).setText(result);
             ((TextView) mView.findViewById(R.id.events_time)).setText(time);
-
-            // Wed Oct 15 10:30:00 CEST 2014
-            // Wed Oct 15 2014
-            // StartTime - EndTime
 
         }
     }
