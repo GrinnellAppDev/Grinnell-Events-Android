@@ -5,6 +5,6 @@
         android:id="@+id/action_pick_date"
         android:showAsAction="ifRoom"
         android:title="@string/action_pick_date"
-        android:icon="@drawable/"/>
+        android:icon="@drawable/ic_action_event"/>
 
 </menu>
