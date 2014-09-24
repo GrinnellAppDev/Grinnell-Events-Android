@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -181,8 +182,8 @@ public class EventsListFragment extends ListFragment {
 		event_query.whereLessThanOrEqualTo("startTime", new Date(selectedDate.getTime() + 86400000));
 
 
-        final LinearLayout linearLayout = (LinearLayout) mView.findViewById(R.id.event_list_layout);
-        linearLayout.setVisibility(View.GONE);
+        final RelativeLayout relativeLayout = (RelativeLayout) mView.findViewById(R.id.event_list_layout);
+        relativeLayout.setVisibility(View.GONE);
 
         final ProgressBar progressBar = (ProgressBar) mView.findViewById(R.id.list_progress_bar);
 
@@ -193,7 +194,7 @@ public class EventsListFragment extends ListFragment {
 				if (e == null) {
 					Log.d(TAG, "Retrieved " + eventList.size() + " events");
 					parseToList(eventList);
-                    linearLayout.setVisibility(View.VISIBLE);
+                    relativeLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
 				} else {
 					Log.d(TAG, "Error: " + e.getMessage());

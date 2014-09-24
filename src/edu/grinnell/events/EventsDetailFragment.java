@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -75,6 +76,14 @@ public class EventsDetailFragment extends Fragment {
                     .setText(mItem.getDetails());
             ((TextView) mView.findViewById(R.id.events_location))
                     .setText(mItem.getLocation());
+            mView.findViewById(R.id.calendar_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mItem != null) {
+                        addEventToCalendar();
+                    }
+                }
+            });
 
 
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d yyyy", Locale.US);
@@ -124,5 +133,18 @@ public class EventsDetailFragment extends Fragment {
                 }
             }
         });
+    }
+
+    /* Add the event to a calendar selected by the user */
+    public void addEventToCalendar() {
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra("beginTime", mItem.getStartTime().getTime());
+        intent.putExtra("allDay", false);
+        intent.putExtra("endTime", mItem.getEndTime().getTime());
+        intent.putExtra("title", mItem.getTitle());
+        intent.putExtra("eventLocation", mItem.getLocation());
+        intent.putExtra("description", mItem.getDetails());
+        mActivity.startActivity(intent);
     }
 }

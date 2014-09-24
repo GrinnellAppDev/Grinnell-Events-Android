@@ -123,19 +123,6 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         return new Date(baseDate.getTime() + numMillis);
     }
 
-    /* Add the event to a calendar selected by the user */
-    public void addEventToCalendar(View view) {
-        Intent intent = new Intent(Intent.ACTION_EDIT);
-        intent.setType("vnd.android.cursor.item/event");
-        intent.putExtra("beginTime", mSelectedEvent.getStartTime().getTime());
-        intent.putExtra("allDay", false);
-        intent.putExtra("endTime", mSelectedEvent.getEndTime().getTime());
-        intent.putExtra("title", mSelectedEvent.getTitle());
-        intent.putExtra("eventLocation", mSelectedEvent.getLocation());
-        intent.putExtra("description", mSelectedEvent.getDetails());
-        startActivity(intent);
-    }
-
     public class EventDayAdapter extends FragmentStatePagerAdapter {
 
         public EventDayAdapter(FragmentManager fm) {
