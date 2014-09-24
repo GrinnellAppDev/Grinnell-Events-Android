@@ -22,11 +22,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: edu.grinnell.events" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1952be6d-3c54-4dc5-a925-b7b3d29623ca" name="Default" comment="Improve event detail layout">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/grinnell/events/EventsDetailFragment.java" afterPath="$PROJECT_DIR$/src/edu/grinnell/events/EventsDetailFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/grinnell/events/EventsListActivity.java" afterPath="$PROJECT_DIR$/src/edu/grinnell/events/EventsListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/generated/source/r/debug/edu/grinnell/events/R.java" afterPath="$PROJECT_DIR$/build/generated/source/r/debug/edu/grinnell/events/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_events_detail.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_events_detail.xml" />
+    <list default="true" id="1952be6d-3c54-4dc5-a925-b7b3d29623ca" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Grinnell-Events-Android.iws" />
@@ -962,6 +958,11 @@
       <created>1411035808878</created>
       <updated>1411035808878</updated>
     </task>
+    <task id="LOCAL-00001" summary="Improve event detail layout">
+      <created>1411573596480</created>
+      <updated>1411573596480</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
