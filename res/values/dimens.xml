@@ -9,9 +9,9 @@
     <dimen name="pad1">1dp</dimen>
 
     <dimen name="largerText">25sp</dimen>
-    <dimen name="largeText">20sp</dimen>
-    <dimen name="mediumText">15sp</dimen>
+    <dimen name="medlargeText">20sp</dimen>
+    <dimen name="largeText">18sp</dimen>
+    <dimen name="mediumText">14sp</dimen>
     <dimen name="smallText">10sp</dimen>
-
 
 </resources>

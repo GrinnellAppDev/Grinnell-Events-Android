@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".EventsDetailFragment"
     android:id="@+id/event_loading"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:layout_width="match_parent"
     android:background="@color/White">
 
@@ -140,7 +140,8 @@
                         android:textColor="#999999"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:textIsSelectable="true" />
+                        android:textIsSelectable="true"
+                        android:text="Sorry, No details were given for this event :("/>
                 </LinearLayout>
 
                 <View

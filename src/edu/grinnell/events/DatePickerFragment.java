@@ -1,7 +1,6 @@
 package edu.grinnell.events;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.app.DatePickerDialog;
