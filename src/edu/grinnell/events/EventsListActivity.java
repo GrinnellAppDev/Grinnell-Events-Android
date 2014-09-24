@@ -52,8 +52,10 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_events_list, menu);
+        if (!detailShowing) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.activity_events_list, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -78,6 +80,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         if (detailShowing) {
         //    mViewPager.setVisibility(View.VISIBLE);
             detailShowing = false;
+            invalidateOptionsMenu();
             getSupportFragmentManager().popBackStack();
         }
     }

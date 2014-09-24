@@ -54,6 +54,7 @@ public class EventsDetailFragment extends Fragment {
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        mActivity.invalidateOptionsMenu();
     }
 
 
