@@ -55,12 +55,13 @@ public final class R {
         public static final int ic_menu_refresh=0x7f020001;
     }
     public static final class id {
-        public static final int action_pick_date=0x7f090009;
+        public static final int action_pick_date=0x7f09000a;
         public static final int container=0x7f090000;
         public static final int dateText=0x7f090004;
         public static final int events_date=0x7f090006;
-        public static final int events_detail=0x7f090008;
-        public static final int events_location=0x7f090007;
+        public static final int events_detail=0x7f090009;
+        public static final int events_location=0x7f090008;
+        public static final int events_time=0x7f090007;
         public static final int events_title=0x7f090005;
         public static final int pager=0x7f090001;
         public static final int pager_title_strip=0x7f090002;

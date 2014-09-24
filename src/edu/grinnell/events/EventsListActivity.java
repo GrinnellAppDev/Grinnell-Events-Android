@@ -16,145 +16,151 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
 import edu.grinnell.events.data.EventContent.Event;
 
 public class EventsListActivity extends FragmentActivity implements EventsListFragment.Callbacks {
 
-	String TAG = "EVENTS_LIST_ACTIVITY";
+    String TAG = "EVENTS_LIST_ACTIVITY";
 
-	//Date at which the pages start
-	final Date baseDate = new GregorianCalendar(2014, 0, 0).getTime();
-	boolean detailShowing = false;
+    //Date at which the pages start
+    final Date baseDate = new GregorianCalendar(2014, 0, 0).getTime();
+    boolean detailShowing = false;
 
-	protected List<Event> mData = new ArrayList<Event>();
-	protected Event mSelectedEvent;
-	EventDayAdapter mEventDayAdapter;
+    protected List<Event> mData = new ArrayList<Event>();
+    protected Event mSelectedEvent;
+    EventDayAdapter mEventDayAdapter;
 
-	ViewPager mViewPager;
+    ViewPager mViewPager;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_events_list);
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_events_list);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
 
-		mViewPager.setOffscreenPageLimit(3);
-		mViewPager.setAdapter(mEventDayAdapter);
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setAdapter(mEventDayAdapter);
 
 		/* Open the events for today by default */
-		Date today = new GregorianCalendar().getTime();
+        Date today = new GregorianCalendar().getTime();
 
-		int daysPastBase = daysBetween(today, baseDate);
+        int daysPastBase = daysBetween(today, baseDate);
 
-		mViewPager.setCurrentItem(daysPastBase);
-	}
+        mViewPager.setCurrentItem(daysPastBase);
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.activity_events_list, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_events_list, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_pick_date:
-			showDatePickerDialog();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_pick_date:
+                showDatePickerDialog();
+                return true;
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		if (detailShowing) {
-			mViewPager.setVisibility(View.VISIBLE);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (detailShowing) {
+            mViewPager.setVisibility(View.VISIBLE);
             detailShowing = false;
             getSupportFragmentManager().popBackStack();
-		}
-	}
+        }
+    }
 
-	/* Open the detail page for an event */
-	@Override
-	public void onItemSelected(String id) {
-		FragmentManager fm = getSupportFragmentManager();
-		EventsDetailFragment eventDetails = EventsDetailFragment.newInstance(id);
-		mViewPager.setVisibility(View.INVISIBLE);
-		detailShowing = true;
-		fm.beginTransaction().replace(R.id.container, eventDetails).addToBackStack(null).commit();
-	}
+    /* Open the detail page for an event */
+    @Override
+    public void onItemSelected(String id) {
+        FragmentManager fm = getSupportFragmentManager();
+        EventsDetailFragment eventDetails = EventsDetailFragment.newInstance(id);
+        mViewPager.setVisibility(View.INVISIBLE);
+        detailShowing = true;
+        fm.beginTransaction().replace(R.id.container, eventDetails).addToBackStack(null).commit();
+    }
 
-	/* The dialog to allow users to select a specific date */
-	public void showDatePickerDialog() {
-		DatePickerFragment datePickerFragment = new DatePickerFragment();
-		datePickerFragment.show(getSupportFragmentManager(), "datePicker");
-	}
+    /* The dialog to allow users to select a specific date */
+    public void showDatePickerDialog() {
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
+    }
 
-	public int daysBetween(Date date1, Date date2) {
-		Long daysBetween;
+    public int daysBetween(Date date1, Date date2) {
+        Long daysBetween;
 
-		// 86400000 milliseconds in in a day
-		daysBetween = (date1.getTime() - date2.getTime()) / 86400000;
+        // 86400000 milliseconds in in a day
+        daysBetween = (date1.getTime() - date2.getTime()) / 86400000;
 
-		return (int) Math.floor(daysBetween);
-	}
+        return (int) Math.floor(daysBetween);
+    }
 
-	public Date positionToDate(int position) {
-		//calculate how many milliseconds since first page, each page is one day
+    public Date positionToDate(int position) {
+        //calculate how many milliseconds since first page, each page is one day
 
-		long numMillis = (long) position * 86400000;
+        long numMillis = (long) position * 86400000;
 
-		return new Date(baseDate.getTime() + numMillis);
-	}
+        return new Date(baseDate.getTime() + numMillis);
+    }
 
-	/* Add the event to a calendar selected by the user */
-	public void addEventToCalendar(View view) {
-		Intent intent = new Intent(Intent.ACTION_EDIT);
-		intent.setType("vnd.android.cursor.item/event");
-		intent.putExtra("beginTime", mSelectedEvent.getStartTime().getTime());
-		intent.putExtra("allDay", false);
-		intent.putExtra("endTime", mSelectedEvent.getEndTime().getTime());
-		intent.putExtra("title", mSelectedEvent.getTitle());
-		intent.putExtra("eventLocation", mSelectedEvent.getLocation());
-		intent.putExtra("description", mSelectedEvent.getDetails());
-		startActivity(intent);
-	}
+    /* Add the event to a calendar selected by the user */
+    public void addEventToCalendar(View view) {
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra("beginTime", mSelectedEvent.getStartTime().getTime());
+        intent.putExtra("allDay", false);
+        intent.putExtra("endTime", mSelectedEvent.getEndTime().getTime());
+        intent.putExtra("title", mSelectedEvent.getTitle());
+        intent.putExtra("eventLocation", mSelectedEvent.getLocation());
+        intent.putExtra("description", mSelectedEvent.getDetails());
+        startActivity(intent);
+    }
 
-	public class EventDayAdapter extends FragmentStatePagerAdapter {
+    public class EventDayAdapter extends FragmentStatePagerAdapter {
 
-		public EventDayAdapter(FragmentManager fm) {
-			super(fm);
-		}
+        public EventDayAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-		@Override
-		public Fragment getItem(int position) {
+        @Override
+        public Fragment getItem(int position) {
 
-			Date thisDay = positionToDate(position);
+            Date thisDay = positionToDate(position);
 
-			return EventsListFragment.newInstance(thisDay.getTime());
-		}
+            return EventsListFragment.newInstance(thisDay.getTime());
+        }
 
-		@Override
-		public int getCount() {
-			return 30000;
-		}
+        @Override
+        public int getCount() {
+            return 30000;
+        }
 
-		@Override
-		public CharSequence getPageTitle(int position) {
-			Date thisDay = positionToDate(position);
+        @Override
+        public CharSequence getPageTitle(int position) {
+            Date thisDay = positionToDate(position);
 
-			SimpleDateFormat formatter = new SimpleDateFormat("EEE MM/dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("EEE MM/dd");
 
-			return ("" + formatter.format(thisDay));
-		}
+            return ("" + formatter.format(thisDay));
+        }
 
-	}
+    }
 }

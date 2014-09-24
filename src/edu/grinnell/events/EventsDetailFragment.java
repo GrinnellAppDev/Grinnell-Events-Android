@@ -1,6 +1,8 @@
 package edu.grinnell.events;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import android.app.ActionBar;
 import android.os.Bundle;
@@ -54,22 +56,6 @@ public class EventsDetailFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // app icon in action bar clicked; go home
-                mActivity.onBackPressed();
-                /*
-                Intent intent = new Intent(this, EventsApp.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                */
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,8 +74,21 @@ public class EventsDetailFragment extends Fragment {
 					.setText(mItem.getDetails());
 			((TextView) mView.findViewById(R.id.events_location))
 					.setText(mItem.getLocation());
-			((TextView) mView.findViewById(R.id.events_date)).setText(mItem
-					.getStartTime().toString());
+
+
+            SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d yyyy", Locale.US);
+            Date date = mItem.getStartTime();
+            String result = formatter.format(date);
+            SimpleDateFormat timeFormatter = new SimpleDateFormat("h:mm a", Locale.US);
+            String time = timeFormatter.format(date) + " - " +
+                    timeFormatter.format(mItem.getEndTime());
+
+            ((TextView) mView.findViewById(R.id.events_date)).setText(result);
+            ((TextView) mView.findViewById(R.id.events_time)).setText(time);
+
+            // Wed Oct 15 10:30:00 CEST 2014
+            // Wed Oct 15 2014
+            // StartTime - EndTime
 
 		}
 	}
