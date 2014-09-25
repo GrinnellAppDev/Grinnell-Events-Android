@@ -24,7 +24,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
     String TAG = "EVENTS_LIST_ACTIVITY";
 
     //Date at which the pages start
-    final Date baseDate = new GregorianCalendar(2014, 0, 0).getTime();
+    public static final Date baseDate = new GregorianCalendar(2014, 0, 1).getTime();
     boolean detailShowing = false;
 
     protected List<Event> mData = new ArrayList<Event>();

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+    DatePickerDialog dateDialog;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -22,15 +23,15 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 		int day = c.get(Calendar.DAY_OF_MONTH);
 
 		// Create a new instance of DatePickerDialog and return it
-		return new DatePickerDialog(getActivity(), this, year, month, day);
+		dateDialog = new DatePickerDialog(getActivity(), this, year, month, day);
+        dateDialog.getDatePicker().setMinDate(EventsListActivity.baseDate.getTime());
+        dateDialog.getDatePicker().setMinDate(EventsListActivity.baseDate.getTime() + (30000 * 86400000));
+
+
+        return dateDialog;
 	}
 
 	public void onDateSet(DatePicker view, int year, int month, int day) {
-        if (year < 2014) {
-            Toast.makeText(getActivity(), "Please Choose A Year After 2013", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
 		//set the events date to the new settings
 		EventsListActivity mActivity = (EventsListActivity) getActivity();
 		Calendar thisDate = new GregorianCalendar(year, month, day);
