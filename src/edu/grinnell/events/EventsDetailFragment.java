@@ -24,6 +24,7 @@ import com.parse.ParseQuery;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import edu.grinnell.events.data.EventContent.Event;
 
@@ -111,9 +112,13 @@ public class EventsDetailFragment extends Fragment {
 
 
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d yyyy", Locale.US);
+            formatter.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+
             Date date = mItem.getStartTime();
             String result = formatter.format(date);
             SimpleDateFormat timeFormatter = new SimpleDateFormat("h:mm a", Locale.US);
+            timeFormatter.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+
             String time = timeFormatter.format(date) + " - " +
                     timeFormatter.format(mItem.getEndTime());
 
@@ -127,17 +132,17 @@ public class EventsDetailFragment extends Fragment {
     /* Query the events for a specific day from the Parse database */
     public void retrieveEventFromParse(String id) {
         ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event2");
-        event_query.whereEqualTo("eventid", id);
+        event_query.whereEqualTo("objectId", id);
 
         final ScrollView scrollView = ((ScrollView) mView.findViewById(R.id.event_scroll_view));
         scrollView.setVisibility(View.GONE);
 
-        event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        event_query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
 
         event_query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject p_event, ParseException e) {
                 if (e == null) {
-                    String eventid = p_event.getString("eventid");
+                    String eventid = p_event.getObjectId();
                     String title = p_event.getString("title");
                     String location = p_event.getString("location");
                     Date startDate = p_event.getDate("startTime");

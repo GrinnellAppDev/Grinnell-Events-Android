@@ -1,12 +1,5 @@
 package edu.grinnell.events;
 
-import com.crashlytics.android.Crashlytics;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,6 +9,17 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import com.crashlytics.android.Crashlytics;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import edu.grinnell.events.data.EventContent.Event;
 
@@ -45,7 +49,9 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         mViewPager.setAdapter(mEventDayAdapter);
 
 		/* Open the events for today by default */
-        Date today = new GregorianCalendar().getTime();
+        GregorianCalendar todayCalendar = new GregorianCalendar(Locale.US);
+        todayCalendar.setTimeZone(TimeZone.getTimeZone("UTC-5"));
+        Date today = todayCalendar.getTime();
 
         int daysPastBase = daysBetween(today, baseDate);
 
@@ -92,7 +98,6 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
     public void onItemSelected(String id) {
         FragmentManager fm = getSupportFragmentManager();
         EventsDetailFragment eventDetails = EventsDetailFragment.newInstance(id);
-      //  mViewPager.setVisibility(View.INVISIBLE);
         detailShowing = true;
         fm.beginTransaction().setCustomAnimations(R.anim.left_slide_in, R.anim.left_slide_out, R.anim.right_slide_in, R.anim.right_slide_out)
                 .replace(R.id.container, eventDetails).addToBackStack(null).commit();
@@ -117,7 +122,6 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         //calculate how many milliseconds since first page, each page is one day
 
         long numMillis = (long) position * 86400000;
-
         return new Date(baseDate.getTime() + numMillis);
     }
 
@@ -131,6 +135,10 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         public Fragment getItem(int position) {
 
             Date thisDay = positionToDate(position);
+
+            Calendar calendarDay = new GregorianCalendar(Locale.US);
+            calendarDay.setTime(thisDay);
+            calendarDay.setTimeZone(TimeZone.getTimeZone("GMT-5"));
 
             return EventsListFragment.newInstance(thisDay.getTime());
         }

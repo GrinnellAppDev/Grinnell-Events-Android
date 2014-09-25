@@ -1,13 +1,19 @@
 package edu.grinnell.events;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,8 +95,6 @@ public class EventsListFragment extends ListFragment {
 
 		mData = new ArrayList<Event>();
 		mActivity = (EventsListActivity) getActivity();
-		
-
 	}
 
 	@Override
@@ -169,23 +173,38 @@ public class EventsListFragment extends ListFragment {
                 container, false);
 
         long thisDay = getArguments().getLong(DATE_VALUE);
-        retrieveDateFromParse(new Date(thisDay));
+        Calendar calendarDay = new GregorianCalendar(Locale.US);
+
+        calendarDay.setTime(new Date(thisDay));
+        calendarDay.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+
+        calendarDay.set(Calendar.HOUR, 0);
+        calendarDay.set(Calendar.MINUTE, 0);
+        calendarDay.set(Calendar.SECOND, 0);
+        calendarDay.set(Calendar.MILLISECOND, 0);
+
+        retrieveDateFromParse(calendarDay);
 
 		return mView;
 	}
 
 	/* Query the events for a specific day from the Parse database */
-	public void retrieveDateFromParse(Date selectedDate) {
+	public void retrieveDateFromParse(Calendar selectedDate) {
 		ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event2");
-		event_query.whereGreaterThanOrEqualTo("startTime", selectedDate);
-		event_query.whereLessThanOrEqualTo("startTime", new Date(selectedDate.getTime() + 86400000));
+
+        Date todayDate = selectedDate.getTime();
+		event_query.whereGreaterThanOrEqualTo("startTime", todayDate);
+
+        //Calendar tomorrowDate = selectedDate;
+        Date tomorrowDate = new Date(todayDate.getTime() + 86400000);
+		event_query.whereLessThan("startTime", tomorrowDate);
 
 
         final RelativeLayout relativeLayout = (RelativeLayout) mView.findViewById(R.id.event_list_layout);
         relativeLayout.setVisibility(View.GONE);
 
         final ProgressBar progressBar = (ProgressBar) mView.findViewById(R.id.list_progress_bar);
-
+        event_query.addAscendingOrder("startTime");
         event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
 		event_query.findInBackground(new FindCallback<ParseObject>() {
@@ -216,7 +235,7 @@ public class EventsListFragment extends ListFragment {
 		Iterator<ParseObject> event_saver = p_event_list.iterator();
 		while (event_saver.hasNext()) {
 			ParseObject p_event = event_saver.next();
-			eventid = p_event.getString("eventid");
+			eventid = p_event.getObjectId();
 			title = p_event.getString("title");
 			location = p_event.getString("location");
 			startDate = p_event.getDate("startTime");

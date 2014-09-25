@@ -1,14 +1,15 @@
 package edu.grinnell.events;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
-import android.widget.Toast;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
 
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -35,6 +36,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 		//set the events date to the new settings
 		EventsListActivity mActivity = (EventsListActivity) getActivity();
 		Calendar thisDate = new GregorianCalendar(year, month, day);
+        thisDate.setTimeZone(TimeZone.getTimeZone("GMT-5"));
 
 		mActivity.mViewPager.setCurrentItem(mActivity.daysBetween(thisDate.getTime(), mActivity.baseDate));
 	}
