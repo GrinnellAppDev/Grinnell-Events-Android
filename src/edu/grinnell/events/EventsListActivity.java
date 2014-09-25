@@ -1,5 +1,6 @@
 package edu.grinnell.events;
 
+import com.crashlytics.android.Crashlytics;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +36,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
         setContentView(R.layout.activity_events_list);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
