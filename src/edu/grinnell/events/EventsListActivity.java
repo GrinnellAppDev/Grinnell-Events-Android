@@ -88,6 +88,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         if (detailShowing) {
         //    mViewPager.setVisibility(View.VISIBLE);
             detailShowing = false;
+            getActionBar().setDisplayHomeAsUpEnabled(false);
             invalidateOptionsMenu();
             getSupportFragmentManager().popBackStack();
         }
