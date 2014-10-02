@@ -1,19 +1,8 @@
 package edu.grinnell.events;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +17,15 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import edu.grinnell.events.data.EventContent.Event;
 
@@ -205,8 +203,7 @@ public class EventsListFragment extends ListFragment {
 
         final ProgressBar progressBar = (ProgressBar) mView.findViewById(R.id.list_progress_bar);
         event_query.addAscendingOrder("startTime");
-        event_query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
-
+        event_query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 		event_query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> eventList, ParseException e) {
 				if (e == null) {
