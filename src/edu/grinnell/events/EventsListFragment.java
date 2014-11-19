@@ -25,7 +25,6 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import edu.grinnell.events.data.EventContent.Event;
 
@@ -174,7 +173,7 @@ public class EventsListFragment extends ListFragment {
         Calendar calendarDay = new GregorianCalendar(Locale.US);
 
         calendarDay.setTime(new Date(thisDay));
-        calendarDay.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+        calendarDay.setTimeZone(mActivity.mTimeZone);
 
         calendarDay.set(Calendar.HOUR, 0);
         calendarDay.set(Calendar.MINUTE, 0);
@@ -196,7 +195,6 @@ public class EventsListFragment extends ListFragment {
         //Calendar tomorrowDate = selectedDate;
         Date tomorrowDate = new Date(todayDate.getTime() + 86400000);
 		event_query.whereLessThan("startTime", tomorrowDate);
-
 
         final RelativeLayout relativeLayout = (RelativeLayout) mView.findViewById(R.id.event_list_layout);
         relativeLayout.setVisibility(View.GONE);

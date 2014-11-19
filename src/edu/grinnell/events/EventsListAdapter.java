@@ -1,14 +1,13 @@
 package edu.grinnell.events;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.TimeZone;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import edu.grinnell.events.data.EventContent.Event;
 
@@ -46,16 +45,14 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
                 .findViewById(R.id.locationText);
         convertView.setTag(holder);
 
-
         final Event a = mData.get(position);
-
         if (a != null) {
 
             holder.title.setText(a.getTitle());
             holder.title.setPadding(3, 3, 3, 3);
 
             SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm aa");
-            timeFormatter.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+            timeFormatter.setTimeZone(mActivity.mTimeZone);
 
             holder.date.setText(timeFormatter.format(a.getStartTime()) + " - " +
                     timeFormatter.format(a.getEndTime()));

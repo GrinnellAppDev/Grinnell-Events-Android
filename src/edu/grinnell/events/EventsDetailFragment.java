@@ -2,7 +2,6 @@ package edu.grinnell.events;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
@@ -24,7 +23,6 @@ import com.parse.ParseQuery;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import edu.grinnell.events.data.EventContent.Event;
 
@@ -112,12 +110,12 @@ public class EventsDetailFragment extends Fragment {
 
 
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d yyyy", Locale.US);
-            formatter.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+            formatter.setTimeZone(mActivity.mTimeZone);
 
             Date date = mItem.getStartTime();
             String result = formatter.format(date);
             SimpleDateFormat timeFormatter = new SimpleDateFormat("h:mm a", Locale.US);
-            timeFormatter.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+            timeFormatter.setTimeZone(mActivity.mTimeZone);
 
             String time = timeFormatter.format(date) + " - " +
                     timeFormatter.format(mItem.getEndTime());

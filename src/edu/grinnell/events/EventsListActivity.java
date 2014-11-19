@@ -37,6 +37,8 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
     ViewPager mViewPager;
 
+    TimeZone mTimeZone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +52,19 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
 		/* Open the events for today by default */
         GregorianCalendar todayCalendar = new GregorianCalendar(Locale.US);
-        todayCalendar.setTimeZone(TimeZone.getTimeZone("UTC-5"));
+
+        // Correct for time zones and DST
+        if (todayCalendar.getTimeZone().inDaylightTime(new Date())) {
+            mTimeZone = TimeZone.getTimeZone("GMT-5");
+        }
+        else {
+            mTimeZone = TimeZone.getTimeZone("GMT-6");
+        }
+
+        todayCalendar.setTimeZone(mTimeZone);
+
         Date today = todayCalendar.getTime();
-
         int daysPastBase = daysBetween(today, baseDate);
-
         mViewPager.setCurrentItem(daysPastBase);
     }
 
@@ -121,7 +131,6 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
     public Date positionToDate(int position) {
         //calculate how many milliseconds since first page, each page is one day
-
         long numMillis = (long) position * 86400000;
         return new Date(baseDate.getTime() + numMillis);
     }
@@ -134,12 +143,11 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
 
         @Override
         public Fragment getItem(int position) {
-
             Date thisDay = positionToDate(position);
 
             Calendar calendarDay = new GregorianCalendar(Locale.US);
             calendarDay.setTime(thisDay);
-            calendarDay.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+            calendarDay.setTimeZone(mTimeZone);
 
             return EventsListFragment.newInstance(thisDay.getTime());
         }
@@ -152,9 +160,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         @Override
         public CharSequence getPageTitle(int position) {
             Date thisDay = positionToDate(position);
-
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MM/dd");
-
             return ("" + formatter.format(thisDay));
         }
 
