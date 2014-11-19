@@ -7,6 +7,7 @@ import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,7 +94,7 @@ public class EventsDetailFragment extends Fragment {
             String details = mItem.getDetails();
             if (details != null && !details.isEmpty()) {
                 ((TextView) mView.findViewById(R.id.events_detail))
-                        .setText(details);
+                        .setText(Html.fromHtml(details));
             }
 
             ((TextView) mView.findViewById(R.id.events_location))
@@ -136,7 +137,6 @@ public class EventsDetailFragment extends Fragment {
         scrollView.setVisibility(View.GONE);
 
         event_query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-
         event_query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject p_event, ParseException e) {
                 if (e == null) {

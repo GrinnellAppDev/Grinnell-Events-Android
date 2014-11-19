@@ -23,10 +23,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/VeryLightGrey">
 
                 <LinearLayout
@@ -42,6 +39,7 @@
                         style="?android:attr/textAppearanceLarge"
                         android:paddingLeft="25dp"
                         android:paddingRight="15dp"
+                        android:fontFamily="sans-serif"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textIsSelectable="true" />
@@ -65,19 +63,21 @@
 
                         <TextView
                             android:id="@+id/events_date"
+                            android:fontFamily="sans-serif-light"
                             android:layout_toRightOf="@+id/timeicon"
                             android:layout_toEndOf="@+id/timeicon"
-                            android:textColor="#999999"
+                            android:textColor="@color/DetailText"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:textIsSelectable="true" />
 
                         <TextView
                             android:id="@+id/events_time"
+                            android:fontFamily="sans-serif-light"
                             android:layout_toRightOf="@+id/timeicon"
                             android:layout_toEndOf="@+id/timeicon"
                             android:layout_below="@+id/events_date"
-                            android:textColor="#999999"
+                            android:textColor="@color/DetailText"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:textIsSelectable="true" />
@@ -111,10 +111,11 @@
 
                         <TextView
                             android:id="@+id/events_location"
+                            android:fontFamily="sans-serif-light"
                             android:layout_toRightOf="@+id/locationicon"
                             android:layout_toEndOf="@+id/locationicon"
                             android:layout_centerVertical="true"
-                            android:textColor="#999999"
+                            android:textColor="@color/DetailText"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:textIsSelectable="true" />
@@ -132,17 +133,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:background="@color/White"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
 
                     <TextView
                         android:id="@+id/events_detail"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:textColor="#999999"
-                        android:layout_width="fill_parent"
+                        android:textColor="@color/DetailText"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textIsSelectable="true"
+                        android:textSize="@dimen/largeText"
+                        android:fontFamily="sans-serif-light"
                         android:text="Sorry, No details were given for this event :("/>
                 </LinearLayout>
 
@@ -155,6 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:gravity="center"
+                    android:layout_marginBottom="50dp"
                     android:textColor="@color/LightRed"
                     android:background="@drawable/add_button_selector"
                     android:text="@string/add_to_calendar"
