@@ -11,9 +11,13 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 
-
+/**
+ * Date Picking dialog fragment that appears when the calendar icon is pressed.
+ */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     DatePickerDialog dateDialog;
+
+
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -32,6 +36,9 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         return dateDialog;
 	}
 
+	/**
+	 * On user's input, sets the current item in the activity
+	 */
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		//set the events date to the new settings
 		EventsListActivity mActivity = (EventsListActivity) getActivity();

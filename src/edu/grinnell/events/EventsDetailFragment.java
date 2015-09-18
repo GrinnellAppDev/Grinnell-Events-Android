@@ -43,6 +43,9 @@ public class EventsDetailFragment extends Fragment {
     public EventsDetailFragment() {
     }
 
+    /**
+     * Constructor created by the newInstance and takes in the Item ID
+     */
     public static EventsDetailFragment newInstance(String id) {
         EventsDetailFragment fragment = new EventsDetailFragment();
         Bundle args = new Bundle();
@@ -63,6 +66,10 @@ public class EventsDetailFragment extends Fragment {
     }
 
 
+    /**
+     * Handles the setup of the DetailFragment view.
+     * Inflates view, retrieves parse item, and returns view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,6 +81,10 @@ public class EventsDetailFragment extends Fragment {
     }
 
 
+    /**
+     * Set drawable icons to image views in fragment.
+     * Sets the color of the icon (originally gray) and adds a red tint to it
+     */
     public void changeIconColor() {
         Drawable timeIcon = getResources().getDrawable(R.drawable.ic_action_timeicon);
         Drawable locationIcon = getResources().getDrawable(R.drawable.ic_action_locationicon);
@@ -86,6 +97,9 @@ public class EventsDetailFragment extends Fragment {
     }
 
 
+    /**
+     * Puts local parse data into the fragment view
+     */
     public void showDetails() {
         if (mItem != null) {
             ((TextView) mView.findViewById(R.id.events_title)).setText(mItem
@@ -128,7 +142,9 @@ public class EventsDetailFragment extends Fragment {
     }
 
 
-    /* Query the events for a specific day from the Parse database */
+    /**
+     *   Query the events for a specific day from the Parse database
+     **/
     public void retrieveEventFromParse(String id) {
         ParseQuery<ParseObject> event_query = ParseQuery.getQuery("Event2");
         event_query.whereEqualTo("objectId", id);
@@ -158,7 +174,9 @@ public class EventsDetailFragment extends Fragment {
         });
     }
 
-    /* Add the event to a calendar selected by the user */
+    /**
+     * Add the event to a calendar selected by the user
+     */
     public void addEventToCalendar() {
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");

@@ -6,7 +6,6 @@ import java.util.List;
 
 public class EventContent {
 
-	public static List<Event> EventList = new ArrayList<Event>();
 
 	public static class Event {
 		protected String id;

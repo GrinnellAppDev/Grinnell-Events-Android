@@ -25,7 +25,7 @@ local.properties
 build/
 
 # Hide the strings secure file
-strings_secure.xml
+/strings_secure.xml
 
 # Don't need the big icons
 res/drawable/big_icon.png
