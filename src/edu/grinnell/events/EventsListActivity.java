@@ -50,24 +50,15 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mEventDayAdapter);
 
-		/* Open the events for today by default */
-        GregorianCalendar todayCalendar = new GregorianCalendar(Locale.US);
-
-        // Correct for time zones and DST
-        if (todayCalendar.getTimeZone().inDaylightTime(new Date())) {
-            mTimeZone = TimeZone.getTimeZone("GMT-5");
-        }
-        else {
-            mTimeZone = TimeZone.getTimeZone("GMT-6");
-        }
-
-        todayCalendar.setTimeZone(mTimeZone);
-
-        Date today = todayCalendar.getTime();
-        int daysPastBase = daysBetween(today, baseDate);
-        mViewPager.setCurrentItem(daysPastBase);
+        /* Open the events for today by default */
+        mViewPager.setCurrentItem(getDefaultDate());
     }
 
+    /**
+     * Opens m
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!detailShowing) {
@@ -96,7 +87,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
     public void onBackPressed() {
         super.onBackPressed();
         if (detailShowing) {
-        //    mViewPager.setVisibility(View.VISIBLE);
+            //    mViewPager.setVisibility(View.VISIBLE);
             detailShowing = false;
             getActionBar().setDisplayHomeAsUpEnabled(false);
             invalidateOptionsMenu();
@@ -104,22 +95,59 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         }
     }
 
-    /* Open the detail page for an event */
+
+    /**
+     * Current date in the person's timezone
+     * @return int, number of days between the baseDate and current Date
+     */
+    public int getDefaultDate(){
+        GregorianCalendar todayCalendar = new GregorianCalendar(Locale.US);
+
+        // Correct for time zones and DST
+        if (todayCalendar.getTimeZone().inDaylightTime(new Date())) {
+            mTimeZone = TimeZone.getTimeZone("GMT-5");
+        }
+        else {
+            mTimeZone = TimeZone.getTimeZone("GMT-6");
+        }
+
+        todayCalendar.setTimeZone(mTimeZone);
+
+        Date today = todayCalendar.getTime();
+
+        return daysBetween(today, baseDate);
+    }
+
+    /**
+     * Open the EventDetailFragment for an event
+     * @param id: the id of the item selected by the user within the EventList
+     */
     @Override
     public void onItemSelected(String id) {
         FragmentManager fm = getSupportFragmentManager();
+        /* Creates fragment and passes the fragment ID*/
         EventsDetailFragment eventDetails = EventsDetailFragment.newInstance(id);
         detailShowing = true;
         fm.beginTransaction().setCustomAnimations(R.anim.left_slide_in, R.anim.left_slide_out, R.anim.right_slide_in, R.anim.right_slide_out)
                 .replace(R.id.container, eventDetails).addToBackStack(null).commit();
     }
 
-    /* The dialog to allow users to select a specific date */
+
+    /**
+     * The dialog to allow users to select a specific date
+     */
     public void showDatePickerDialog() {
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+
+    /**
+     * Find the number of days between two given dates.
+     * @param date1: base date
+     * @param date2: second date
+     * @return: int: number of days
+     */
     public int daysBetween(Date date1, Date date2) {
         Long daysBetween;
 
@@ -129,6 +157,11 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         return (int) Math.floor(daysBetween);
     }
 
+    /**
+     * calculate how many milliseconds since first page
+     * @param position
+     * @return Date
+     */
     public Date positionToDate(int position) {
         //calculate how many milliseconds since first page, each page is one day
         long numMillis = (long) position * 86400000;
@@ -141,6 +174,12 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
             super(fm);
         }
 
+
+        /**
+         * Gets the fragment
+         * @param position
+         * @return
+         */
         @Override
         public Fragment getItem(int position) {
             Date thisDay = positionToDate(position);
@@ -152,11 +191,21 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
             return EventsListFragment.newInstance(thisDay.getTime());
         }
 
+        /**
+         *
+         * @return int, 30000
+         */
         @Override
         public int getCount() {
             return 30000;
         }
 
+
+        /**
+         * Format date shown on top of the ListFrangment as the title
+         * @param position: int, date of the ListFragement
+         * @return CharSequence, formatted date
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             Date thisDay = positionToDate(position);

@@ -11,6 +11,9 @@ import java.util.List;
 
 import edu.grinnell.events.data.EventContent.Event;
 
+/**
+ * List Adapter for EventListActivity
+ */
 public class EventsListAdapter extends ArrayAdapter<Event> {
 
     private EventsListActivity mActivity;
@@ -31,6 +34,9 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
         TextView location;
     }
 
+    /**
+     * Sets up the view for the individual events/rows
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
