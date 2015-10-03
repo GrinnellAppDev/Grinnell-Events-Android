@@ -23,6 +23,15 @@ import java.util.TimeZone;
 
 import edu.grinnell.events.data.EventContent.Event;
 
+
+/**
+ * TODO: New Nav bar
+ * TODO: Better animations
+ * TODO: Material Dialog
+ * TODO: Change text highlight color
+ * TODO: Change "Add to Calendar" highlight color
+ *
+ */
 public class EventsListActivity extends FragmentActivity implements EventsListFragment.Callbacks {
 
     String TAG = "EVENTS_LIST_ACTIVITY";
