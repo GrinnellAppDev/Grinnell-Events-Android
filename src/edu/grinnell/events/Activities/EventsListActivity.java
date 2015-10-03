@@ -1,4 +1,4 @@
-package edu.grinnell.events;
+package edu.grinnell.events.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +21,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import edu.grinnell.events.data.EventContent.Event;
+import edu.grinnell.events.Fragments.DatePickerFragment;
+import edu.grinnell.events.Fragments.EventsDetailFragment;
+import edu.grinnell.events.Fragments.EventsListFragment;
+import edu.grinnell.events.Model.EventContent.Event;
+import edu.grinnell.events.R;
 
 public class EventsListActivity extends FragmentActivity implements EventsListFragment.Callbacks {
 

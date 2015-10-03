@@ -1,4 +1,4 @@
-package edu.grinnell.events;
+package edu.grinnell.events.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,9 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import edu.grinnell.events.data.EventContent.Event;
+import edu.grinnell.events.EventsListActivity;
+import edu.grinnell.events.Model.EventContent.Event;
+import edu.grinnell.events.R;
 
 /**
  * List Adapter for EventListActivity
