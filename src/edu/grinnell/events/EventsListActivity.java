@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toolbar;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -49,12 +50,17 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
 
     TimeZone mTimeZone;
 
+    android.support.v7.widget.Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Crashlytics.start(this);
         setContentView(R.layout.activity_events_list);
         mViewPager = (ViewPager) findViewById(R.id.pager);
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setLogo(R.drawable.ic_launcher);
+        //setSupportActionBar(toolbar);
         mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
 
         mViewPager.setOffscreenPageLimit(3);
@@ -62,8 +68,10 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
 
         /* Open the events for today by default */
         mViewPager.setCurrentItem(getDefaultDate());
+
     }
 
+    /**
     /**
      * Opens m
      * @param menu
@@ -99,7 +107,8 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         if (detailShowing) {
             //    mViewPager.setVisibility(View.VISIBLE);
             detailShowing = false;
-            getActionBar().setDisplayHomeAsUpEnabled(false);
+            /** TODO: catch this exception **/
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             invalidateOptionsMenu();
             getSupportFragmentManager().popBackStack();
         }
