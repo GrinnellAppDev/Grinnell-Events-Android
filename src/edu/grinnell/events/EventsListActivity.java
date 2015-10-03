@@ -6,7 +6,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -101,6 +103,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         }
     }
 
+    /**
+     * TODO: Change back button imageeO
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -229,7 +234,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         public CharSequence getPageTitle(int position) {
             Date thisDay = positionToDate(position);
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MM/dd");
-            return ("" + formatter.format(thisDay));
+            String date = formatter.format(thisDay);
+            Log.d("CURRENT PAGE", date);
+            return ("" + date);
         }
 
     }
