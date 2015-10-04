@@ -1,8 +1,10 @@
-package edu.grinnell.events;
+package edu.grinnell.events.ApplicationConfiguration;
 
 import android.app.Application;
 
 import com.parse.Parse;
+
+import edu.grinnell.events.R;
 
 public class EventsApp extends Application {
 
