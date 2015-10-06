@@ -61,8 +61,8 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         setContentView(R.layout.activity_events_list);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
-        //toolbar.setLogo(R.drawable.ic_launcher);
-        //setSupportActionBar(toolbar);
+        toolbar.setLogo(R.drawable.ic_launcher);
+//        setSupportActionBar(toolbar);
         mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
         //getSupportActionBar().setIcon(R.drawable.ic_launcher).;
@@ -232,7 +232,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
          * @return CharSequence, formatted date
          */
         @Override
-        public String getPageTitle(int position) {
+        public CharSequence getPageTitle(int position) {
             Date thisDay = positionToDate(position);
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MM/dd");
             String date = formatter.format(thisDay);
