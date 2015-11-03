@@ -12,22 +12,25 @@
         android:layout_height="match_parent"
         android:background="@color/White" >
 
-
+<!--
         <include
             android:id="@+id/tool_bar"
             layout="@layout/tool_bar"
-            ></include>
-
+            >
+        </include>
+-->
 
         <android.support.v4.view.PagerTitleStrip
             android:id="@+id/pager_title_strip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="top"
+            android:elevation="1dp"
             android:background="@color/White"
             android:textAppearance="@style/PagerTabStripText"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp" />
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"/>
+
     </android.support.v4.view.ViewPager>
 
 </FrameLayout>

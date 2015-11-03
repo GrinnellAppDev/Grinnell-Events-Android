@@ -6,13 +6,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toolbar;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -60,9 +58,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         Crashlytics.start(this);
         setContentView(R.layout.activity_events_list);
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
-        toolbar.setLogo(R.drawable.ic_launcher);
-//        setSupportActionBar(toolbar);
+        //toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
+        //toolbar.setLogo(R.drawable.ic_launcher);
+        //setSupportActionBar(toolbar);
         mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
         //getSupportActionBar().setIcon(R.drawable.ic_launcher).;

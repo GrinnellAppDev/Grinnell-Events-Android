@@ -4,11 +4,11 @@
 
     <item
         android:state_pressed="true"
-        android:drawable="@color/Yellow" />
+        android:drawable="@color/LightRed" />
 
     <item
         android:state_focused="true"
-        android:drawable="@color/Yellow" />
+        android:drawable="@color/LightRed" />
 
     <item
         android:drawable="@color/White"/>
