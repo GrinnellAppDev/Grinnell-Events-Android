@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import edu.grinnell.events.EventsListActivity;
+import edu.grinnell.events.Activities.EventsListActivity;
 
 
 /**

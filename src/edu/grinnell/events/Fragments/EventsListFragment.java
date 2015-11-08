@@ -243,7 +243,7 @@ public class EventsListFragment extends ListFragment {
 
 			mData.add(new_event);
 		}
-		EventsListAdapter adapter = new EventsListAdapter((EventsListActivity) mActivity, R.layout.events_row, mData);
+		EventsListAdapter adapter = new EventsListAdapter( mActivity, R.layout.events_row, mData);
 		setListAdapter(adapter);
 	}
 

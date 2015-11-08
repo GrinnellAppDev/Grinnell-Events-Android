@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import edu.grinnell.events.EventsListActivity;
+import edu.grinnell.events.Activities.EventsListActivity;
 import edu.grinnell.events.Model.EventContent.Event;
 import edu.grinnell.events.R;
 

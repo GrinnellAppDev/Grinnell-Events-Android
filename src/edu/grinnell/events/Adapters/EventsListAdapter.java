@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import edu.grinnell.events.EventsListActivity;
+import edu.grinnell.events.Activities.EventsListActivity;
 import edu.grinnell.events.Model.EventContent.Event;
 import edu.grinnell.events.R;
 

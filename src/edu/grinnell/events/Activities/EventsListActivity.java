@@ -1,5 +1,6 @@
 package edu.grinnell.events.Activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -50,9 +51,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
     protected Event mSelectedEvent;
     EventDayAdapter mEventDayAdapter;
 
-    ViewPager mViewPager;
+    public ViewPager mViewPager;
 
-    TimeZone mTimeZone;
+    public TimeZone mTimeZone;
 
     android.support.v7.widget.Toolbar toolbar;
 
@@ -62,9 +63,10 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         Crashlytics.start(this);
         setContentView(R.layout.activity_events_list);
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        //toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
         //toolbar.setLogo(R.drawable.ic_launcher);
-        //setSupportActionBar(toolbar);
+        Log.v("theme", getApplicationInfo().theme + "");
+        setSupportActionBar(toolbar);
         mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
         //getSupportActionBar().setIcon(R.drawable.ic_launcher).;
