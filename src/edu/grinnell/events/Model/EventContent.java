@@ -1,8 +1,6 @@
-package edu.grinnell.events.data;
+package edu.grinnell.events.Model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class EventContent {
 

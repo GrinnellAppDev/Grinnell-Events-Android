@@ -1,4 +1,4 @@
-package edu.grinnell.events;
+package edu.grinnell.events.Fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -9,6 +9,8 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+
+import edu.grinnell.events.EventsListActivity;
 
 
 /**

@@ -1,4 +1,4 @@
-package edu.grinnell.events;
+package edu.grinnell.events.Fragments;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -25,7 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import edu.grinnell.events.data.EventContent.Event;
+import edu.grinnell.events.EventsListActivity;
+import edu.grinnell.events.Model.EventContent.Event;
+import edu.grinnell.events.R;
 
 public class EventsDetailFragment extends Fragment {
     final String TAG = EventsDetailFragment.class.getSimpleName();

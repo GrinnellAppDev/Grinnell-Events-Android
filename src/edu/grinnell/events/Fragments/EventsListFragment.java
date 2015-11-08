@@ -1,4 +1,4 @@
-package edu.grinnell.events;
+package edu.grinnell.events.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -26,7 +26,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import edu.grinnell.events.data.EventContent.Event;
+import edu.grinnell.events.Activities.EventsListActivity;
+import edu.grinnell.events.Adapters.EventsListAdapter;
+import edu.grinnell.events.Model.EventContent.Event;
+import edu.grinnell.events.R;
 
 public class EventsListFragment extends ListFragment {
 	final String TAG = EventsListFragment.class.getSimpleName();
@@ -240,7 +243,7 @@ public class EventsListFragment extends ListFragment {
 
 			mData.add(new_event);
 		}
-		EventsListAdapter adapter = new EventsListAdapter(mActivity, R.layout.events_row, mData);
+		EventsListAdapter adapter = new EventsListAdapter((EventsListActivity) mActivity, R.layout.events_row, mData);
 		setListAdapter(adapter);
 	}
 
