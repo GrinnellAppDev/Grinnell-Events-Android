@@ -63,7 +63,8 @@ public class EventsDetailFragment extends Fragment {
         mID = getArguments().getString(EVENT_ID);
 
         android.support.v7.app.ActionBar actionBar = ((EventsListActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
         mActivity.invalidateOptionsMenu();
     }
 

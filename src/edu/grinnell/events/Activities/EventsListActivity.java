@@ -157,7 +157,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         /* Creates fragment and passes the fragment ID*/
         EventsDetailFragment eventDetails = EventsDetailFragment.newInstance(id);
         detailShowing = true;
-        fm.beginTransaction().setCustomAnimations(R.anim.left_slide_in, R.anim.left_slide_out, R.anim.right_slide_in, R.anim.right_slide_out)
+        fm.beginTransaction().setCustomAnimations(R.anim.left_slide_in_fast, R.anim.left_slide_out_fast, R.anim.right_slide_in_fast, R.anim.right_slide_out_fast)
                 .replace(R.id.container, eventDetails).addToBackStack(null).commit();
     }
 

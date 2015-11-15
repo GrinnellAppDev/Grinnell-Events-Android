@@ -5,13 +5,13 @@
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
 
-    <style name="AppBaseTheme2" parent="Theme.AppCompat">
+    <style name="AppBaseTheme2" parent="Theme.AppCompat.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
-        <item name="colorPrimary">@color/LightRed</item>
+        <item name="colorPrimary">@color/White</item>
         <item name="colorAccent">@color/LightRed</item>
         <item name="colorPrimaryDark">@color/Grey</item>
     </style>
