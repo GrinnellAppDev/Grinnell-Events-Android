@@ -3,8 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tool_bar"
     android:layout_width="match_parent"
-    android:layout_height="?actionBarSize"
+    android:layout_height="wrap_content"
     android:background="@color/White"
+    android:theme="@style/AppTheme"
     >
 
 </android.support.v7.widget.Toolbar>

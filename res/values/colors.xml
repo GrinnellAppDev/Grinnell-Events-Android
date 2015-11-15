@@ -34,6 +34,7 @@
     <color name="Blue">#0000FF</color>
 
     <color name="DetailText">#484848</color>
+    <color name="statusBarColor">#5f1616</color>
 
 
 </resources>

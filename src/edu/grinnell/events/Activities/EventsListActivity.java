@@ -66,7 +66,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
         //toolbar.setLogo(R.drawable.ic_launcher);
         Log.v("theme", getApplicationInfo().theme + "");
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
         //getSupportActionBar().setIcon(R.drawable.ic_launcher).;
