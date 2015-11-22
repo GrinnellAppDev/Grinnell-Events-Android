@@ -5,15 +5,26 @@
     android:layout_height="fill_parent" >
 
 
-    <EditText
-        android:id="@+id/mSearch"
-/>
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:background="@color/White" >
+
+        <EditText
+            android:id="@+id/mSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search"
+            />
+
 
         <android.support.v4.view.PagerTitleStrip
             android:id="@+id/pager_title_strip"
@@ -22,8 +33,9 @@
             android:layout_gravity="top"
             android:background="@color/White"
             android:textAppearance="@style/PagerTabStripText"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp" />
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"/>
+
     </android.support.v4.view.ViewPager>
 
 </FrameLayout>

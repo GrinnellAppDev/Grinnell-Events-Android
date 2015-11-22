@@ -1,4 +1,4 @@
-package edu.grinnell.events;
+package edu.grinnell.events.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import edu.grinnell.events.data.EventContent.Event;
+import edu.grinnell.events.Activities.EventsListActivity;
+import edu.grinnell.events.Model.EventContent.Event;
+import edu.grinnell.events.R;
 
 /**
  * List Adapter for EventListActivity

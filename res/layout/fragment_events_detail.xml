@@ -80,7 +80,9 @@
                             android:textColor="@color/DetailText"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:textIsSelectable="true" />
+                            android:textIsSelectable="true"
+                            android:textColorHighlight="@color/LightRed"
+                            />
 
                     </RelativeLayout>
 
@@ -118,7 +120,9 @@
                             android:textColor="@color/DetailText"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:textIsSelectable="true" />
+                            android:textIsSelectable="true"
+                            android:textColorHighlight="@color/LightRed"
+                            />
 
                     </RelativeLayout>
 
@@ -146,7 +150,9 @@
                         android:textIsSelectable="true"
                         android:textSize="@dimen/largeText"
                         android:fontFamily="sans-serif-light"
-                        android:text="Sorry, No details were given for this event :("/>
+                        android:text="Sorry, No details were given for this event :("
+                        android:textColorHighlight="@color/LightRed"
+                        />
                 </LinearLayout>
 
                 <View

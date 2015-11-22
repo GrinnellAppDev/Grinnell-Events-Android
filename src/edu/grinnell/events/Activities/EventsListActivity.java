@@ -1,13 +1,14 @@
-package edu.grinnell.events;
+package edu.grinnell.events.Activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,9 +25,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import edu.grinnell.events.data.EventContent.Event;
+import edu.grinnell.events.Fragments.DatePickerFragment;
+import edu.grinnell.events.Fragments.EventsDetailFragment;
+import edu.grinnell.events.Fragments.EventsListFragment;
+import edu.grinnell.events.Model.EventContent.Event;
+import edu.grinnell.events.R;
 
-public class EventsListActivity extends FragmentActivity implements EventsListFragment.Callbacks{
+
+/**
+ * TODO: New Nav bar
+ * TODO: Better animations
+ * TODO: Material Dialog
+ * TODO: Change text highlight color
+ * TODO: Change "Add to Calendar" highlight color
+ *
+ */
+public class EventsListActivity extends AppCompatActivity implements EventsListFragment.Callbacks {
 
     String TAG = "EVENTS_LIST_ACTIVITY";
 
@@ -38,10 +52,12 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
     protected Event mSelectedEvent;
     EventDayAdapter mEventDayAdapter;
 
-    ViewPager mViewPager;
-    EditText mSearch;
 
-    TimeZone mTimeZone;
+    public ViewPager mViewPager;
+    public TimeZone mTimeZone;
+    public EditText mSearch;
+
+    android.support.v7.widget.Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +66,22 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         setContentView(R.layout.activity_events_list);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mSearch = (EditText) findViewById(R.id.mSearch);
-        mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
 
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
+        mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mEventDayAdapter);
 
         /* Open the events for today by default */
         mViewPager.setCurrentItem(getDefaultDate());
+
     }
 
 
 
 
 
+    /**
     /**
      * Opens m
      * @param menu
@@ -94,13 +113,17 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         }
     }
 
+    /**
+     * TODO: Change back button imageeO
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         if (detailShowing) {
             //    mViewPager.setVisibility(View.VISIBLE);
             detailShowing = false;
-            getActionBar().setDisplayHomeAsUpEnabled(false);
+            /** TODO: catch this excepton **/
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             invalidateOptionsMenu();
             getSupportFragmentManager().popBackStack();
         }
@@ -139,7 +162,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         /* Creates fragment and passes the fragment ID*/
         EventsDetailFragment eventDetails = EventsDetailFragment.newInstance(id);
         detailShowing = true;
-        fm.beginTransaction().setCustomAnimations(R.anim.left_slide_in, R.anim.left_slide_out, R.anim.right_slide_in, R.anim.right_slide_out)
+        fm.beginTransaction().setCustomAnimations(R.anim.left_slide_in_fast, R.anim.left_slide_out_fast, R.anim.right_slide_in_fast, R.anim.right_slide_out_fast)
                 .replace(R.id.container, eventDetails).addToBackStack(null).commit();
     }
 
@@ -221,7 +244,9 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         public CharSequence getPageTitle(int position) {
             Date thisDay = positionToDate(position);
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MM/dd");
-            return ("" + formatter.format(thisDay));
+            String date = formatter.format(thisDay);
+            Log.d("CURRENT PAGE", date);
+            return ("" + date);
         }
 
     }

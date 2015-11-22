@@ -7,9 +7,9 @@
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
-  
+
           http://www.apache.org/licenses/LICENSE-2.0
-  
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,36 +19,35 @@
 
 <resources>
 
-    <style name="Theme.Grinnellevents" parent="@style/Theme.AppCompat.Light">
+    <style name="Theme.Grinnellevents" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="actionBarItemBackground">@drawable/selectable_background_grinnellevents</item>
         <item name="popupMenuStyle">@style/PopupMenu.Grinnellevents</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Grinnellevents</item>
         <item name="actionBarTabStyle">@style/ActionBarTabStyle.Grinnellevents</item>
         <item name="actionDropDownStyle">@style/DropDownNav.Grinnellevents</item>
         <item name="actionBarStyle">@style/ActionBar.Solid.Grinnellevents</item>
+
         <item name="actionModeBackground">@drawable/cab_background_top_grinnellevents</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_grinnellevents</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Grinnellevents</item>
+        <item name="android:windowActionBar">false</item>
 
-        
+
+
     </style>
 
-    <style name="ActionBar.Solid.Grinnellevents" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+    <style name="ActionBar.Solid.Grinnellevents" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="background">@drawable/ab_solid_grinnellevents</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_grinnellevents</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_grinnellevents</item>
         <item name="progressBarStyle">@style/ProgressBar.Grinnellevents</item>
     </style>
 
-    <style name="ActionBar.Transparent.Grinnellevents" parent="@style/Widget.AppCompat.Light.ActionBar">
-        <item name="background">@drawable/ab_transparent_grinnellevents</item>
-        <item name="progressBarStyle">@style/ProgressBar.Grinnellevents</item>
+
+    <style name="PopupMenu.Grinnellevents" parent="@style/Widget.AppCompat.Light.PopupMenu">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_grinnellevents</item>
     </style>
-	
-    <style name="PopupMenu.Grinnellevents" parent="@style/Widget.AppCompat.Light.PopupMenu">	
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_grinnellevents</item>	
-    </style>
-	
+
     <style name="DropDownListView.Grinnellevents" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_grinnellevents</item>
     </style>
@@ -56,23 +55,23 @@
     <style name="ActionBarTabStyle.Grinnellevents" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_grinnellevents</item>
     </style>
-	
+
     <style name="DropDownNav.Grinnellevents" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_background_ab_grinnellevents</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_grinnellevents</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_grinnellevents</item>
     </style>
-    
+
     <style name="ProgressBar.Grinnellevents" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_grinnellevents</item>
     </style>
-    
+
     <style name="ActionButton.CloseMode.Grinnellevents" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_grinnellevents</item>
     </style>
-    
+
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Grinnellevents.Widget" parent="@style/Theme.AppCompat">
+    <style name="Theme.Grinnellevents.Widget" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="popupMenuStyle">@style/PopupMenu.Grinnellevents</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Grinnellevents</item>
     </style>
