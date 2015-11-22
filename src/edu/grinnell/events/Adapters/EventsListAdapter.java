@@ -76,6 +76,9 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
         return convertView;
     }
 
+
+
+
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -86,6 +89,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
                 FilterResults results = new FilterResults();
 
                 if (constraint == null || constraint.length() == 0) {
+
                     results.values = mData;
                     results.count = mData.size();
                 } else {
@@ -116,4 +120,5 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 
         };
     }
+
 }
