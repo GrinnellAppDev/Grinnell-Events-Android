@@ -10,8 +10,14 @@
         android:id="@+id/event_list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-
+        <EditText
+            android:id="@+id/mSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search"
+            />
         <ListView
+            android:layout_below="@+id/mSearch"
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

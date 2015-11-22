@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import edu.grinnell.events.Adapters.EventsListAdapter;
 import edu.grinnell.events.Fragments.DatePickerFragment;
 import edu.grinnell.events.Fragments.EventsDetailFragment;
 import edu.grinnell.events.Fragments.EventsListFragment;
@@ -56,6 +57,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
     public ViewPager mViewPager;
     public TimeZone mTimeZone;
     public EditText mSearch;
+
 
     android.support.v7.widget.Toolbar toolbar;
 

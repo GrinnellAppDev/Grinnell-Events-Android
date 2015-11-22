@@ -45,7 +45,7 @@ public class EventsListFragment extends ListFragment implements SearchView.OnQue
 	public Event mEvent = null;
 	public EventsListAdapter adapter;
     View mView;
-	EditText mSearch;
+    EditText mSearch;
 
 
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
@@ -102,7 +102,7 @@ public class EventsListFragment extends ListFragment implements SearchView.OnQue
 
 		mData = new ArrayList<Event>();
 		mActivity = (EventsListActivity) getActivity();
-		mSearch = ((EventsListActivity) getActivity()).mSearch;
+
 	}
 
 	@Override
@@ -113,6 +113,28 @@ public class EventsListFragment extends ListFragment implements SearchView.OnQue
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
 			setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
 		}
+        mSearch = (EditText) getView().findViewById(R.id.mSearch);
+
+        mSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+                String text = mSearch.getText().toString().toLowerCase(Locale.getDefault());
+                adapter.getFilter().filter(text);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1,
+                                          int arg2, int arg3) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+                                      int arg3) {
+                // TODO Auto-generated method stub
+            }
+        });
 	}
 
 	@Override
@@ -192,26 +214,6 @@ public class EventsListFragment extends ListFragment implements SearchView.OnQue
         calendarDay.set(Calendar.MILLISECOND, 0);
 
         retrieveDateFromParse(calendarDay);
-		mSearch.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void afterTextChanged(Editable arg0) {
-				// TODO Auto-generated method stub
-				String text = mSearch.getText().toString().toLowerCase(Locale.getDefault());
-				adapter.getFilter().filter(text);
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1,
-										  int arg2, int arg3) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-									  int arg3) {
-				// TODO Auto-generated method stub
-			}
-		});
 
 		return mView;
 	}
