@@ -6,9 +6,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -23,7 +26,7 @@ import java.util.TimeZone;
 
 import edu.grinnell.events.data.EventContent.Event;
 
-public class EventsListActivity extends FragmentActivity implements EventsListFragment.Callbacks {
+public class EventsListActivity extends FragmentActivity implements EventsListFragment.Callbacks{
 
     String TAG = "EVENTS_LIST_ACTIVITY";
 
@@ -36,6 +39,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
     EventDayAdapter mEventDayAdapter;
 
     ViewPager mViewPager;
+    EditText mSearch;
 
     TimeZone mTimeZone;
 
@@ -45,6 +49,7 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         Crashlytics.start(this);
         setContentView(R.layout.activity_events_list);
         mViewPager = (ViewPager) findViewById(R.id.pager);
+        mSearch = (EditText) findViewById(R.id.mSearch);
         mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
 
         mViewPager.setOffscreenPageLimit(3);
@@ -53,6 +58,10 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
         /* Open the events for today by default */
         mViewPager.setCurrentItem(getDefaultDate());
     }
+
+
+
+
 
     /**
      * Opens m
@@ -77,6 +86,8 @@ public class EventsListActivity extends FragmentActivity implements EventsListFr
             case android.R.id.home:
                 // app icon in action bar clicked; go home
                 onBackPressed();
+                return true;
+            case R.id.action_search:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

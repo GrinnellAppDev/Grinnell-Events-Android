@@ -3,15 +3,19 @@ package edu.grinnell.events;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -28,7 +32,7 @@ import java.util.Locale;
 
 import edu.grinnell.events.data.EventContent.Event;
 
-public class EventsListFragment extends ListFragment {
+public class EventsListFragment extends ListFragment implements SearchView.OnQueryTextListener{
 	final String TAG = EventsListFragment.class.getSimpleName();
 
 	static final String DATE_VALUE = "DATE_VALUE";
@@ -36,7 +40,10 @@ public class EventsListFragment extends ListFragment {
 	public EventsListActivity mActivity;
 	public List<Event> mData;
 	public Event mEvent = null;
+	public EventsListAdapter adapter;
     View mView;
+	EditText mSearch;
+
 
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
@@ -92,6 +99,7 @@ public class EventsListFragment extends ListFragment {
 
 		mData = new ArrayList<Event>();
 		mActivity = (EventsListActivity) getActivity();
+		mSearch = ((EventsListActivity) getActivity()).mSearch;
 	}
 
 	@Override
@@ -181,6 +189,26 @@ public class EventsListFragment extends ListFragment {
         calendarDay.set(Calendar.MILLISECOND, 0);
 
         retrieveDateFromParse(calendarDay);
+		mSearch.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+				String text = mSearch.getText().toString().toLowerCase(Locale.getDefault());
+				adapter.getFilter().filter(text);
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,
+										  int arg2, int arg3) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+									  int arg3) {
+				// TODO Auto-generated method stub
+			}
+		});
 
 		return mView;
 	}
@@ -200,15 +228,15 @@ public class EventsListFragment extends ListFragment {
         relativeLayout.setVisibility(View.GONE);
 
         final ProgressBar progressBar = (ProgressBar) mView.findViewById(R.id.list_progress_bar);
-        event_query.addAscendingOrder("startTime");
+		event_query.addAscendingOrder("startTime");
         event_query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 		event_query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> eventList, ParseException e) {
 				if (e == null) {
 					Log.d(TAG, "Retrieved " + eventList.size() + " events");
 					parseToList(eventList);
-                    relativeLayout.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
+					relativeLayout.setVisibility(View.VISIBLE);
+					progressBar.setVisibility(View.GONE);
 				} else {
 					Log.d(TAG, "Error: " + e.getMessage());
 				}
@@ -240,8 +268,20 @@ public class EventsListFragment extends ListFragment {
 
 			mData.add(new_event);
 		}
-		EventsListAdapter adapter = new EventsListAdapter(mActivity, R.layout.events_row, mData);
+		adapter = new EventsListAdapter(mActivity, R.layout.events_row, mData);
 		setListAdapter(adapter);
+	}
+
+	public boolean onQueryTextChange(String query) {
+		if (adapter != null) {
+			adapter.getFilter().filter(query.toString());
+		}
+		return false;
+	}
+
+	public boolean onQueryTextSubmit(String query) {
+		onQueryTextChange(query);
+		return false;
 	}
 
 }

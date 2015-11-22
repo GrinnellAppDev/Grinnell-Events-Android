@@ -4,10 +4,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import edu.grinnell.events.data.EventContent.Event;
 
@@ -67,5 +72,46 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
         }
 
         return convertView;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @SuppressWarnings("unchecked")
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+
+                if (constraint == null || constraint.length() == 0) {
+                    results.values = mData;
+                    results.count = mData.size();
+                } else {
+                    List<Event> filterResultsData = new ArrayList<Event>();
+
+
+                    for (Event c : mData) {
+                        if (c.getTitle()
+                                .toLowerCase(Locale.ENGLISH)
+                                .contains(constraint)) {
+                            filterResultsData.add(c);
+                        }
+                    }
+                    results.values = filterResultsData;
+                    results.count = filterResultsData.size();
+                }
+                return results;
+            }
+
+
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mData = (List<Event>) results.values;
+                EventsListAdapter.this.notifyDataSetChanged();
+            }
+
+
+        };
     }
 }

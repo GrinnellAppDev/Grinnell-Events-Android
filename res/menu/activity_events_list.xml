@@ -7,4 +7,10 @@
         android:title="@string/action_pick_date"
         android:icon="@drawable/ic_action_event"/>
 
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_launcher"
+        android:menuCategory="secondary"
+        android:showAsAction="ifRoom"
+        android:title="search"/>
 </menu>
