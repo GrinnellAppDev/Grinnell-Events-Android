@@ -10,14 +10,29 @@
         android:id="@+id/event_list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        <EditText
-            android:id="@+id/mSearch"
+
+        <RelativeLayout
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Search"
-            />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/mSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search"
+                />
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="+"/>
+
+        </RelativeLayout>
+
         <ListView
-            android:layout_below="@+id/mSearch"
+            android:layout_below="@+id/search_bar"
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,6 +48,7 @@
             android:text="@string/no_events"
             android:textSize="@dimen/largeText"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
     </RelativeLayout>
 
     <ProgressBar

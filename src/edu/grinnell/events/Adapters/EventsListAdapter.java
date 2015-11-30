@@ -26,6 +26,9 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
     private EventsListActivity mActivity;
     //	private List<Event> mData = new ArrayList<Event>();
     private List<Event> mData;
+    private List<Event> fullData; //will hold the unfiltered events
+    List<Event> filterResultsData = new ArrayList<Event>();
+
 
 
     public EventsListAdapter(EventsListActivity a, int layoutId,
@@ -33,6 +36,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
         super(a, layoutId, data);
         mActivity = a;
         mData = data;
+        fullData = data;
     }
 
     private class ViewHolder {
@@ -58,7 +62,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
                 .findViewById(R.id.locationText);
         convertView.setTag(holder);
 
-        final Event a = mData.get(position);
+        final Event a = getItem(position);
         if (a != null) {
 
             holder.title.setText(a.getTitle());
@@ -90,13 +94,11 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 
                 if (constraint == null || constraint.length() == 0) {
 
-                    results.values = mData;
-                    results.count = mData.size();
+                    results.values = fullData;
+                    results.count = fullData.size();
+                    mData=fullData;
                 } else {
-                    List<Event> filterResultsData = new ArrayList<Event>();
-
-
-                    for (Event c : mData) {
+                    for (Event c : fullData) {
                         if (c.getTitle()
                                 .toLowerCase(Locale.ENGLISH)
                                 .contains(constraint)) {
@@ -105,6 +107,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
                     }
                     results.values = filterResultsData;
                     results.count = filterResultsData.size();
+                    mData = filterResultsData;
                 }
                 return results;
             }
@@ -119,6 +122,22 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 
 
         };
+    }
+
+
+    @Override
+    public int getCount() {
+        return mData.size();
+    }
+
+    @Override
+    public Event getItem(int position) {
+        return this.mData.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
 }

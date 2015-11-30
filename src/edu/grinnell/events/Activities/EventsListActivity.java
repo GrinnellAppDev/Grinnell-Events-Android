@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.crashlytics.android.Crashlytics;
@@ -57,6 +58,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
     public ViewPager mViewPager;
     public TimeZone mTimeZone;
     public EditText mSearch;
+    public Button searchButton;
 
 
     android.support.v7.widget.Toolbar toolbar;
@@ -68,6 +70,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         setContentView(R.layout.activity_events_list);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mSearch = (EditText) findViewById(R.id.mSearch);
+        searchButton = (Button) findViewById(R.id.search_button);
 
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
         mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());

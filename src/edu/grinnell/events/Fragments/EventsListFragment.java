@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -45,7 +46,8 @@ public class EventsListFragment extends ListFragment implements SearchView.OnQue
 	public Event mEvent = null;
 	public EventsListAdapter adapter;
     View mView;
-    EditText mSearch;
+    Button search_button;
+	EditText mSearch;
 
 
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
@@ -113,28 +115,17 @@ public class EventsListFragment extends ListFragment implements SearchView.OnQue
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
 			setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
 		}
-        mSearch = (EditText) getView().findViewById(R.id.mSearch);
+        search_button = (Button) getView().findViewById(R.id.search_button);
+		mSearch = (EditText) getView().findViewById(R.id.mSearch);
 
-        mSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
-                String text = mSearch.getText().toString().toLowerCase(Locale.getDefault());
-                adapter.getFilter().filter(text);
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1,
-                                          int arg2, int arg3) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-                                      int arg3) {
-                // TODO Auto-generated method stub
-            }
-        });
+        search_button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String text = mSearch.getText().toString().toLowerCase(Locale.getDefault());
+				adapter.getFilter().filter(text);
+			}
+		}
+		);
 	}
 
 	@Override
