@@ -1,60 +1,43 @@
 package edu.grinnell.events.Activities;
 
-import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import edu.grinnell.events.Fragments.DatePickerFragment;
 import edu.grinnell.events.Fragments.EventsDetailFragment;
 import edu.grinnell.events.Fragments.EventsListFragment;
-import edu.grinnell.events.Model.EventContent.Event;
 import edu.grinnell.events.R;
 
 
-/**
- * TODO: New Nav bar
- * TODO: Better animations
- * TODO: Material Dialog
- * TODO: Change text highlight color
- * TODO: Change "Add to Calendar" highlight color
- *
- */
 public class EventsListActivity extends AppCompatActivity implements EventsListFragment.Callbacks {
 
-    String TAG = "EVENTS_LIST_ACTIVITY";
-
-    //Date at which the pages start
     public static final Date baseDate = new GregorianCalendar(2014, 0, 1).getTime();
     boolean detailShowing = false;
-
-    protected List<Event> mData = new ArrayList<Event>();
-    protected Event mSelectedEvent;
     EventDayAdapter mEventDayAdapter;
-
     public ViewPager mViewPager;
-
     public TimeZone mTimeZone;
-
     android.support.v7.widget.Toolbar toolbar;
 
     @Override
@@ -62,27 +45,24 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         super.onCreate(savedInstanceState);
         Crashlytics.start(this);
         setContentView(R.layout.activity_events_list);
+
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
-        //toolbar.setLogo(R.drawable.ic_launcher);
-        Log.v("theme", getApplicationInfo().theme + "");
-        //setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
         mEventDayAdapter = new EventDayAdapter(getSupportFragmentManager());
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //getSupportActionBar().setIcon(R.drawable.ic_launcher).;
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mEventDayAdapter);
 
         /* Open the events for today by default */
+
+        if(!isNetworkConnected())
+            Toast.makeText(EventsListActivity.this, "P", Toast.LENGTH_SHORT).show();
+
         mViewPager.setCurrentItem(getDefaultDate());
 
     }
 
     /**
-    /**
-     * Opens m
-     * @param menu
-     * @return
+     * Inflates menu space for the event list button.
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,6 +73,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Handles the actions when the menu items are clicked
+     **/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -109,21 +92,31 @@ public class EventsListActivity extends AppCompatActivity implements EventsListF
     }
 
     /**
-     * TODO: Change back button imageeO
+     * Handles back button clicks
      */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         if (detailShowing) {
-            //    mViewPager.setVisibility(View.VISIBLE);
             detailShowing = false;
-            /** TODO: catch this excepton **/
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            if(getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             invalidateOptionsMenu();
             getSupportFragmentManager().popBackStack();
         }
     }
 
+
+    /**
+     * Checks to see if there is a network connection on the phone
+     * @return True: Network connections exits
+     *         False: Network connections doesn't exist
+     */
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
+    }
 
     /**
      * Current date in the person's timezone

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class EventsDetailFragment extends Fragment {
     EventsListActivity mActivity;
     Event mItem;
     String mID;
+    Button addToCalendarButton;
     View mView;
 
     /**
@@ -63,6 +65,8 @@ public class EventsDetailFragment extends Fragment {
         mID = getArguments().getString(EVENT_ID);
 
         android.support.v7.app.ActionBar actionBar = ((EventsListActivity) getActivity()).getSupportActionBar();
+        addToCalendarButton = (Button) getActivity().findViewById(R.id.calendar_button);
+
         if(actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         mActivity.invalidateOptionsMenu();
@@ -122,6 +126,7 @@ public class EventsDetailFragment extends Fragment {
                 public void onClick(View view) {
                     if (mItem != null) {
                         addEventToCalendar();
+
                     }
                 }
             });
